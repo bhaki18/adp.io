@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADP.io — Angelo Del Piano · Developer Portfolio</title>
+  <meta name="description" content="Angelo Del Piano — 16 year old web &amp; game developer from Italy. I love creating projects for everyone. Let's build something together!">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <!-- Animated background canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Cursor glow effect -->
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <div class="wrapper">
+
+    <!-- ═══════════════════════════════════
+         NAVIGATION
+    ═══════════════════════════════════ -->
+    <header class="navbar" id="navbar">
+      <div class="container">
+        <nav class="nav-inner">
+          <!-- Logo -->
+          <a href="#" class="nav-logo">
+            <div class="logo-mark">A</div>
+            <span class="logo-text">ADP.io</span>
+          </a>
+
+          <!-- Desktop Links -->
+          <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+          </ul>
+
+          <!-- Hamburger -->
+          <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </nav>
+
+        <!-- Mobile Nav -->
+        <nav class="nav-mobile" id="mobile-nav" aria-label="Mobile navigation">
+          <a href="#features">Features</a>
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════
+         HERO
+    ═══════════════════════════════════ -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+
+          <!-- Badge -->
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Open to ideas &amp; requests — let's create something!
+          </div>
+
+          <!-- Headline -->
+          <h1 class="hero-headline">
+            <span class="line-1">Hi, I'm Angelo.</span>
+            <span class="line-2 typed-text" data-words="Web Developer|Game Developer|Creative Coder|Builder of Things">Web Developer</span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="hero-sub">
+            I'm a 16 year old developer from Italy who loves creating projects for everything and everyone. Got an idea or a request? Let's make it real.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary btn-lg">
+              Explore Projects
+              <span class="btn-arrow">→</span>
+            </a>
+            <a href="#contact" class="btn btn-ghost btn-lg">
+              Get in Touch
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-value" data-count="16" data-suffix="" id="stat-age">16</span>
+              <span class="stat-label">Years Old</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" data-count="3" data-suffix="+" id="stat-projects">3+</span>
+              <span class="stat-label">Projects</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" data-count="100" data-suffix="%" id="stat-passion">100%</span>
+              <span class="stat-label">Passion</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" data-count="2024" data-suffix="" id="stat-since">2024</span>
+              <span class="stat-label">Started</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         FEATURES
+    ═══════════════════════════════════ -->
+    <section id="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">What We Do</div>
+          <h2 class="section-title reveal">Crafted with <span>precision</span>,<br>driven by passion.</h2>
+          <p class="section-desc reveal reveal-delay-1">Every line of code, every pixel, every frame — built to exceed expectations and create memories.</p>
+        </div>
+
+        <div class="features-grid">
+
+          <div class="glass-card feature-card reveal reveal-delay-1">
+            <div class="feature-icon fi-purple">🎮</div>
+            <h3>Game Development</h3>
+            <p>From concept to launch, we craft engaging games with Phaser, WebGL, and custom engines — delivering fun, polished experiences across platforms.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal reveal-delay-2">
+            <div class="feature-icon fi-cyan">🌐</div>
+            <h3>Web Experiences</h3>
+            <p>We design and develop dynamic, responsive websites with cutting-edge CSS, rich animations, and seamless JavaScript interactions that wow users.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal reveal-delay-3">
+            <div class="feature-icon fi-pink">🎨</div>
+            <h3>UI / UX Design</h3>
+            <p>Our designers craft intuitive interfaces with a premium look — blending glassmorphism, micro-animations, and accessibility-first principles.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal reveal-delay-1">
+            <div class="feature-icon fi-green">🔊</div>
+            <h3>Sound Design</h3>
+            <p>Immersion starts with audio. Our sound team composes original scores, ambient soundscapes, and crisp SFX that elevate every project.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal reveal-delay-2">
+            <div class="feature-icon fi-amber">✏️</div>
+            <h3>Concept & Narrative</h3>
+            <p>Great products tell great stories. We develop rich lore, engaging game writing, and compelling editorial content that keeps audiences hooked.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal reveal-delay-3">
+            <div class="feature-icon fi-blue">🚀</div>
+            <h3>Publishing & GitHub Pages</h3>
+            <p>We handle the full deployment pipeline — from optimizing builds to shipping on GitHub Pages and beyond, so your work reaches the world.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         PROJECTS
+    ═══════════════════════════════════ -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Our Work</div>
+          <h2 class="section-title reveal">Projects that <span>push limits</span>.</h2>
+          <p class="section-desc reveal reveal-delay-1">A showcase of our latest games, websites, and experimental digital experiences.</p>
+        </div>
+
+        <div class="projects-grid">
+
+          <!-- Project 1 -->
+          <article class="glass-card project-card reveal reveal-delay-1">
+            <div class="project-thumb">
+              <div class="project-thumb-bg pt-1"></div>
+              <div class="project-thumb-glow pg-1"></div>
+              <div class="project-thumb-label">01</div>
+            </div>
+            <div class="project-body">
+              <span class="project-tag pt-tag-1">Game</span>
+              <h3>Project Alpha</h3>
+              <p>A top-down adventure game built with Phaser 3, featuring original pixel art, dialogue systems, and a rich storyline across 5+ scenes.</p>
+              <div class="project-footer">
+                <div class="project-tech">
+                  <span class="tech-pill">Phaser 3</span>
+                  <span class="tech-pill">JavaScript</span>
+                  <span class="tech-pill">Canvas</span>
+                </div>
+                <a href="#" class="project-link">View →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="glass-card project-card reveal reveal-delay-2">
+            <div class="project-thumb">
+              <div class="project-thumb-bg pt-2"></div>
+              <div class="project-thumb-glow pg-2"></div>
+              <div class="project-thumb-label">02</div>
+            </div>
+            <div class="project-body">
+              <span class="project-tag pt-tag-2">3D / Web</span>
+              <h3>Project Beta</h3>
+              <p>An immersive 3D web experience powered by Three.js, featuring custom shaders, real-time lighting, and physics-based interactions.</p>
+              <div class="project-footer">
+                <div class="project-tech">
+                  <span class="tech-pill">Three.js</span>
+                  <span class="tech-pill">WebGL</span>
+                  <span class="tech-pill">GLSL</span>
+                </div>
+                <a href="#" class="project-link">View →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="glass-card project-card reveal reveal-delay-3">
+            <div class="project-thumb">
+              <div class="project-thumb-bg pt-3"></div>
+              <div class="project-thumb-glow pg-3"></div>
+              <div class="project-thumb-label">03</div>
+            </div>
+            <div class="project-body">
+              <span class="project-tag pt-tag-3">Website</span>
+              <h3>ADP.io</h3>
+              <p>This site itself — a handcrafted dark glassmorphism portfolio built with vanilla HTML, CSS, and JavaScript. Zero frameworks, all class.</p>
+              <div class="project-footer">
+                <div class="project-tech">
+                  <span class="tech-pill">HTML5</span>
+                  <span class="tech-pill">CSS3</span>
+                  <span class="tech-pill">Vanilla JS</span>
+                </div>
+                <a href="#home" class="project-link">You're here →</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         ABOUT
+    ═══════════════════════════════════ -->
+    <section id="about">
+      <div class="container">
+        <div class="about-layout">
+
+          <!-- Visual side -->
+          <div class="about-visual reveal">
+            <div class="glass-card about-card-main">
+              <div class="about-avatar-ring">👨‍💻</div>
+              <div class="about-name">Angelo Del Piano</div>
+              <div class="about-role">Web Developer · Game Developer · Italy 🇮🇹</div>
+              <p class="about-bio">I'm 16 years old and I love creating projects for everything and everyone. Whether it's a game, a website, or something brand new — I'm always building.</p>
+            </div>
+
+            <div class="glass-card about-float-1">
+              <span class="float-icon">🇮🇹</span>
+              <div>
+                <div style="font-size:12px;color:var(--clr-text3);font-weight:500;">Based In</div>
+                <div style="font-size:13px;">Italy</div>
+              </div>
+            </div>
+
+            <div class="glass-card about-float-2">
+              <span class="float-icon">🎂</span>
+              <div>
+                <div style="font-size:12px;color:var(--clr-text3);font-weight:500;">Age</div>
+                <div style="font-size:13px;">16 years old</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text side -->
+          <div class="about-text">
+            <div class="section-eyebrow">About Us</div>
+            <h2 class="reveal">I'm a <em>developer</em> who ships.</h2>
+
+            <p class="reveal reveal-delay-1">
+              My name is Angelo Del Piano — ADP for short. I'm a 16 year old self-taught developer from Italy with a passion for web and game development. I've been building things since I was a kid and I'm not stopping anytime soon.
+            </p>
+            <p class="reveal reveal-delay-2">
+              I love creating new projects for everything and everyone. Got an idea? A crazy request? Something you've always wanted to see built? Reach out — I'm always up for a challenge.
+            </p>
+
+            <div class="about-skills">
+              <span class="skill-tag">Phaser 3</span>
+              <span class="skill-tag">Three.js</span>
+              <span class="skill-tag">WebGL</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">HTML5</span>
+              <span class="skill-tag">CSS3</span>
+              <span class="skill-tag">Game Design</span>
+              <span class="skill-tag">Pixel Art</span>
+              <span class="skill-tag">Sound Design</span>
+              <span class="skill-tag">Narrative</span>
+              <span class="skill-tag">GitHub Pages</span>
+              <span class="skill-tag">Vite</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         CONTACT
+    ═══════════════════════════════════ -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-header" style="text-align:center;">
+          <div class="section-eyebrow" style="justify-content:center;">Contact</div>
+          <h2 class="section-title reveal">Let's build something <span>great</span>.</h2>
+        </div>
+
+        <div class="contact-wrapper">
+          <div class="glass-card contact-card reveal">
+            <div class="contact-icon-wrap">📬</div>
+            <h3>Get in Touch</h3>
+            <p>Have a project idea, a collab proposal, or just want to say hi? You can also reach me directly at <a href="mailto:angelodelpiano2317@gmail.com" style="color:var(--clr-purple-l);text-decoration:none;font-weight:600;">angelodelpiano2317@gmail.com</a></p>
+
+            <form class="contact-form" id="contact-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-name">Name</label>
+                  <input type="text" id="contact-name" name="name" placeholder="Your name" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Email</label>
+                  <input type="email" id="contact-email" name="email" placeholder="your@email.com" required autocomplete="email">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="contact-subject">Subject</label>
+                <input type="text" id="contact-subject" name="subject" placeholder="What's it about?">
+              </div>
+              <div class="form-group">
+                <label for="contact-msg">Message</label>
+                <textarea id="contact-msg" name="message" placeholder="Tell us about your project..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg form-submit">
+                Send Message
+                <span class="btn-arrow">→</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-copy">
+            © 2024 Angelo Del Piano (ADP) — Built with ❤️ in Italy 🇮🇹
+          </div>
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#home">Home</a>
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- .wrapper -->
+
+  <!-- Scripts (deferred) -->
+  <script src="../js/main.js" defer></script>
+</body>
+</html>
