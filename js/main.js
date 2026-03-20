@@ -189,7 +189,9 @@
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
+      const href = a.getAttribute('href');
+      if (!href || href === '#') return;  // skip bare # links
+      const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
       const offset = 80;
@@ -438,7 +440,89 @@ function showToast(message, type = 'success') {
 
 
 /* ────────────────────────────────────────
-   13. LOG WELCOME
+   13. PROJECT PLAYER MODAL
+──────────────────────────────────────── */
+(function initProjectPlayer() {
+  const modal = document.getElementById('project-modal');
+  if (!modal) return;
+
+  const iframe = document.getElementById('modal-iframe');
+  const title = document.getElementById('modal-title');
+  const externalLink = document.getElementById('modal-external');
+  const closeBtn = document.getElementById('modal-close');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const loader = modal.querySelector('.modal-loader');
+
+  // Re-focus the iframe whenever the user clicks inside the modal body
+  const modalBody = modal.querySelector('.modal-body');
+  modalBody.addEventListener('mousedown', () => {
+    try { iframe.contentWindow && iframe.contentWindow.focus(); } catch(e) {}
+  });
+  modalBody.addEventListener('click', () => {
+    try { iframe.contentWindow && iframe.contentWindow.focus(); } catch(e) {}
+  });
+
+  function openModal(url, projectTitle) {
+    title.textContent = projectTitle;
+    externalLink.href = url;
+    iframe.src = url;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scroll
+
+    loader.style.opacity = '1';
+    iframe.classList.remove('loaded');
+
+    iframe.onload = () => {
+      loader.style.opacity = '0';
+      iframe.classList.add('loaded');
+      // Give focus to the game as soon as it loads
+      try { iframe.contentWindow && iframe.contentWindow.focus(); } catch(e) {}
+    };
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      iframe.src = '';
+      iframe.classList.remove('loaded');
+    }, 400);
+  }
+
+  // Bind to playable cards
+  document.querySelectorAll('.project-card.playable').forEach(card => {
+    card.addEventListener('click', () => {
+      const url = card.dataset.url;
+      const projectTitle = card.dataset.title;
+      if (url) openModal(url, projectTitle);
+    });
+  });
+
+  // Bind to play buttons inside cards
+  document.querySelectorAll('.play-trigger').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.project-card');
+      const url = card.dataset.url;
+      const projectTitle = card.dataset.title;
+      if (url) openModal(url, projectTitle);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  // Close on Escape
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+})();
+
+
+/* ────────────────────────────────────────
+   14. LOG WELCOME
 ──────────────────────────────────────── */
 console.log(
   '%c ADP.IO ',
