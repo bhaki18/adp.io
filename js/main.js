@@ -339,7 +339,7 @@
   // SOSTITUISCI CON LE TUE CHIAVI ESATTE
   const PUBLIC_KEY = "ufQXC2QkfbIlLz-Jx";
   const SERVICE_ID = "service_x6hr7zc";
-  const TEMPLATE_ID = "template_fsu77ml";
+  const TEMPLATE_ID = "template_wepk9qh";
 
   if (typeof window.emailjs !== 'undefined') {
     window.emailjs.init(PUBLIC_KEY);
@@ -359,10 +359,10 @@
 
     // Collect data to ensure we know exactly what is being sent
     const templateParams = {
-        name: form.querySelector('[name="name"]').value,
-        email: form.querySelector('[name="email"]').value,
-        subject: form.querySelector('[name="subject"]').value,
-        message: form.querySelector('[name="message"]').value
+      name: form.querySelector('[name="name"]').value,
+      email: form.querySelector('[name="email"]').value,
+      subject: form.querySelector('[name="subject"]').value,
+      message: form.querySelector('[name="message"]').value
     };
 
     // We use emailjs.send instead of sendForm to avoid any HTMLFormElement parsing issues
@@ -375,7 +375,7 @@
       }, (error) => {
         btn.innerHTML = originalContent;
         btn.disabled = false;
-        
+
         // STAMPA ERRORE COMPLETO COME RICHIESTO
         const errorMsg = error.text || error.message || "Errore sconosciuto";
         console.error("EmailJS Error: ", errorMsg);
