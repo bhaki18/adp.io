@@ -334,16 +334,13 @@
 ──────────────────────────────────────── */
 (function initContactForm() {
   const form = document.getElementById('contact-form');
-  if (!form) {
-    console.error("EmailJS Error: Contact form not found!");
-    return;
-  }
+  if (!form) return;
 
+  // SOSTITUISCI CON LE TUE CHIAVI ESATTE
   const PUBLIC_KEY = "ufQXC2QkfbIlLz-Jx";
   const SERVICE_ID = "service_x6hr7zc";
   const TEMPLATE_ID = "template_fsu77ml";
 
-  // Use window.emailjs for clarity
   if (typeof window.emailjs !== 'undefined') {
     window.emailjs.init(PUBLIC_KEY);
   }
@@ -351,23 +348,26 @@
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    // Safer honeypot check
+    // Spam check
     const honeypotField = form.querySelector('input[name="honeypot"]');
-    if (honeypotField && honeypotField.value) {
-      console.warn("Spam detected! Honeypot filled.");
-      return;
-    }
+    if (honeypotField && honeypotField.value) return;
 
     const btn = form.querySelector('.form-submit');
     const originalContent = btn.innerHTML;
-
     btn.innerHTML = '<span>⏳ Sending…</span>';
     btn.disabled = true;
 
-    // Send the form via EmailJS
-    window.emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
+    // Collect data to ensure we know exactly what is being sent
+    const templateParams = {
+        name: form.querySelector('[name="name"]').value,
+        email: form.querySelector('[name="email"]').value,
+        subject: form.querySelector('[name="subject"]').value,
+        message: form.querySelector('[name="message"]').value
+    };
+
+    // We use emailjs.send instead of sendForm to avoid any HTMLFormElement parsing issues
+    window.emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
       .then((response) => {
-        console.log("SUCCESS!", response.status, response.text);
         btn.innerHTML = originalContent;
         btn.disabled = false;
         form.reset();
@@ -375,13 +375,12 @@
       }, (error) => {
         btn.innerHTML = originalContent;
         btn.disabled = false;
-        // Detailed error for the user to troubleshoot (400, 401, etc.)
-        console.error('EmailJS Debug:', {
-          status: error.status,
-          text: error.text,
-          message: error.message
-        });
-        showToast(`❌ Error ${error.status}: ${error.text || 'Failed to send'}`, 'error');
+        
+        // STAMPA ERRORE COMPLETO COME RICHIESTO
+        const errorMsg = error.text || error.message || "Errore sconosciuto";
+        console.error("EmailJS Error: ", errorMsg);
+        alert("EmailJS API Error 400: " + errorMsg + "\n\nVerifica Service ID e Template ID!");
+        showToast(`❌ Errore: ${errorMsg}`, 'error');
       });
   });
 })();
