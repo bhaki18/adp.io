@@ -329,26 +329,49 @@
 /* ────────────────────────────────────────
    8. CONTACT FORM
 ──────────────────────────────────────── */
+/* ────────────────────────────────────────
+   8. CONTACT FORM — EmailJS Integration
+──────────────────────────────────────── */
 (function initContactForm() {
   const form = document.querySelector('.contact-form');
   if (!form) return;
 
+  // Initialize EmailJS with your Public Key
+  // REPLACE "YOUR_PUBLIC_KEY" with your actual key from EmailJS dashboard
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init("YOUR_PUBLIC_KEY"); 
+  }
+
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const btn = form.querySelector('.form-submit');
-    const original = btn.innerHTML;
+    // Honeypot check for spam prevention
+    const honeypot = form.querySelector('input[name="honeypot"]').value;
+    if (honeypot) {
+      console.warn("Spam detected!");
+      return;
+    }
 
-    btn.innerHTML  = '⏳ Sending…';
+    const btn = form.querySelector('.form-submit');
+    const originalContent = btn.innerHTML;
+
+    btn.innerHTML  = '<span>⏳ Sending…</span>';
     btn.disabled   = true;
 
-    // Simulate async send
-    setTimeout(() => {
-      btn.innerHTML = original;
-      btn.disabled  = false;
-      form.reset();
-      showToast('✓ Message sent! I\'ll get back to you soon. 🚀');
-    }, 1800);
+    // Use EmailJS to send the form
+    // REPLACE "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID"
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form)
+      .then(() => {
+        btn.innerHTML = originalContent;
+        btn.disabled  = false;
+        form.reset();
+        showToast('✓ Message sent! I\'ll get back to you soon. 🚀');
+      }, (error) => {
+        btn.innerHTML = originalContent;
+        btn.disabled  = false;
+        console.error('EmailJS Error:', error);
+        showToast('❌ Failed to send message. Please try again.', 'error');
+      });
   });
 })();
 
