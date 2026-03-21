@@ -14,6 +14,9 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
@@ -385,6 +388,13 @@
                                 <textarea id="contact-msg" name="message" placeholder="Tell us about your project..."
                                     required></textarea>
                             </div>
+
+                            <!-- Simple Spam Prevention (Honeypot) -->
+                            <div style="display:none;">
+                                <label>Leave this field empty</label>
+                                <input type="text" name="honeypot" autocomplete="off">
+                            </div>
+
                             <button type="submit" class="btn btn-primary btn-lg form-submit">
                                 Send Message
                                 <span class="btn-arrow">→</span>

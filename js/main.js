@@ -333,22 +333,28 @@
    8. CONTACT FORM — EmailJS Integration
 ──────────────────────────────────────── */
 (function initContactForm() {
-  const form = document.querySelector('.contact-form');
-  if (!form) return;
+  const form = document.getElementById('contact-form');
+  if (!form) {
+    console.error("EmailJS Error: Contact form not found!");
+    return;
+  }
 
-  // Initialize EmailJS with your Public Key
-  // REPLACE "YOUR_PUBLIC_KEY" with your actual key from EmailJS dashboard
-  if (typeof emailjs !== 'undefined') {
-    emailjs.init("ufQXC2QkfbIlLz-Jx");
+  const PUBLIC_KEY = "ufQXC2QkfbIlLz-Jx";
+  const SERVICE_ID = "service_x6hr7zc";
+  const TEMPLATE_ID = "template_fsu77ml";
+
+  // Use window.emailjs for clarity
+  if (typeof window.emailjs !== 'undefined') {
+    window.emailjs.init(PUBLIC_KEY);
   }
 
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    // Honeypot check for spam prevention
-    const honeypot = form.querySelector('input[name="honeypot"]').value;
-    if (honeypot) {
-      console.warn("Spam detected!");
+    // Safer honeypot check
+    const honeypotField = form.querySelector('input[name="honeypot"]');
+    if (honeypotField && honeypotField.value) {
+      console.warn("Spam detected! Honeypot filled.");
       return;
     }
 
@@ -358,10 +364,10 @@
     btn.innerHTML = '<span>⏳ Sending…</span>';
     btn.disabled = true;
 
-    // Use EmailJS to send the form
-    // REPLACE "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID"
-    emailjs.sendForm('service_x6hr7zc', 'template_fsu77ml', form)
-      .then(() => {
+    // Send the form via EmailJS
+    window.emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
+      .then((response) => {
+        console.log("SUCCESS!", response.status, response.text);
         btn.innerHTML = originalContent;
         btn.disabled = false;
         form.reset();
@@ -369,8 +375,13 @@
       }, (error) => {
         btn.innerHTML = originalContent;
         btn.disabled = false;
-        console.error('EmailJS Error:', error);
-        showToast('❌ Failed to send message. Please try again.', 'error');
+        // Detailed error for the user to troubleshoot (400, 401, etc.)
+        console.error('EmailJS Debug:', {
+          status: error.status,
+          text: error.text,
+          message: error.message
+        });
+        showToast(`❌ Error ${error.status}: ${error.text || 'Failed to send'}`, 'error');
       });
   });
 })();
