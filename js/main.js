@@ -10,21 +10,21 @@
    1. CANVAS BACKGROUND — Particle Network
 ──────────────────────────────────────── */
 (function initCanvas() {
-  const canvas  = document.getElementById('bg-canvas');
+  const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
-  const ctx     = canvas.getContext('2d');
-  let   W, H, raf;
+  const ctx = canvas.getContext('2d');
+  let W, H, raf;
 
   // Particle pool
   const PARTICLE_COUNT = 80;
-  const MAX_DIST       = 140;
-  const particles      = [];
+  const MAX_DIST = 140;
+  const particles = [];
 
   // Color palette for particles
   const COLORS = ['#7c3aed', '#06b6d4', '#ec4899', '#a855f7', '#22d3ee'];
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
 
@@ -32,13 +32,13 @@
 
   function createParticle() {
     return {
-      x:       randomBetween(0, W),
-      y:       randomBetween(0, H),
-      vx:      randomBetween(-0.35, 0.35),
-      vy:      randomBetween(-0.35, 0.35),
-      r:       randomBetween(1.2, 2.8),
-      alpha:   randomBetween(0.3, 0.8),
-      color:   COLORS[Math.floor(Math.random() * COLORS.length)],
+      x: randomBetween(0, W),
+      y: randomBetween(0, H),
+      vx: randomBetween(-0.35, 0.35),
+      vy: randomBetween(-0.35, 0.35),
+      r: randomBetween(1.2, 2.8),
+      alpha: randomBetween(0.3, 0.8),
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
     };
   }
 
@@ -48,9 +48,9 @@
   }
 
   function hexToRgb(hex) {
-    const r = parseInt(hex.slice(1,3), 16);
-    const g = parseInt(hex.slice(3,5), 16);
-    const b = parseInt(hex.slice(5,7), 16);
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
     return `${r},${g},${b}`;
   }
 
@@ -60,17 +60,17 @@
     // Draw connections
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
-        const dx   = particles[i].x - particles[j].x;
-        const dy   = particles[i].y - particles[j].y;
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < MAX_DIST) {
           const opacity = (1 - dist / MAX_DIST) * 0.25;
-          const rgb     = hexToRgb(particles[i].color);
+          const rgb = hexToRgb(particles[i].color);
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = `rgba(${rgb},${opacity})`;
-          ctx.lineWidth   = 0.8;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
@@ -85,9 +85,9 @@
 
       // Glow
       ctx.shadowColor = p.color;
-      ctx.shadowBlur  = 8;
+      ctx.shadowBlur = 8;
       ctx.fill();
-      ctx.shadowBlur  = 0;
+      ctx.shadowBlur = 0;
 
       // Move
       p.x += p.vx;
@@ -113,15 +113,15 @@
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     particles.forEach(p => {
-      const dx   = p.x - mx;
-      const dy   = p.y - my;
-      const dist = Math.sqrt(dx*dx + dy*dy);
+      const dx = p.x - mx;
+      const dy = p.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < 100) {
         const force = (100 - dist) / 100 * 0.6;
         p.vx += (dx / dist) * force;
         p.vy += (dy / dist) * force;
         // Clamp velocity
-        const speed = Math.sqrt(p.vx*p.vx + p.vy*p.vy);
+        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
         if (speed > 2.5) { p.vx = p.vx / speed * 2.5; p.vy = p.vy / speed * 2.5; }
       }
     });
@@ -148,7 +148,7 @@
     currentX += (targetX - currentX) * 0.08;
     currentY += (targetY - currentY) * 0.08;
     glow.style.left = currentX + 'px';
-    glow.style.top  = currentY + 'px';
+    glow.style.top = currentY + 'px';
     requestAnimationFrame(lerpGlow);
   }
 
@@ -167,7 +167,7 @@
   // Scroll state
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) navbar.classList.add('scrolled');
-    else                     navbar.classList.remove('scrolled');
+    else navbar.classList.remove('scrolled');
   }, { passive: true });
 
   // Mobile toggle
@@ -229,12 +229,12 @@
   if (!counters.length) return;
 
   function animateCount(el) {
-    const target   = parseFloat(el.dataset.count);
-    const suffix   = el.dataset.suffix || '';
-    const prefix   = el.dataset.prefix || '';
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
     const duration = 1800;
     const decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
-    let start      = null;
+    let start = null;
 
     function step(ts) {
       if (!start) start = ts;
@@ -269,15 +269,15 @@
   const el = document.querySelector('.typed-text');
   if (!el) return;
 
-  const words   = el.dataset.words ? el.dataset.words.split('|') : [];
+  const words = el.dataset.words ? el.dataset.words.split('|') : [];
   if (!words.length) return;
 
-  let wordIndex  = 0;
-  let charIndex  = 0;
-  let deleting   = false;
+  let wordIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
 
   function type() {
-    const word    = words[wordIndex];
+    const word = words[wordIndex];
     const current = deleting
       ? word.substring(0, charIndex - 1)
       : word.substring(0, charIndex + 1);
@@ -288,12 +288,12 @@
     let delay = deleting ? 60 : 100;
 
     if (!deleting && charIndex === word.length + 1) {
-      delay    = 1600;
+      delay = 1600;
       deleting = true;
     } else if (deleting && charIndex === 0) {
-      deleting  = false;
+      deleting = false;
       wordIndex = (wordIndex + 1) % words.length;
-      delay     = 400;
+      delay = 400;
     }
 
     setTimeout(type, delay);
@@ -309,11 +309,11 @@
 (function initTilt() {
   document.querySelectorAll('.project-card, .feature-card').forEach(card => {
     card.addEventListener('mousemove', e => {
-      const rect   = card.getBoundingClientRect();
-      const cx     = rect.left + rect.width / 2;
-      const cy     = rect.top  + rect.height / 2;
-      const dx     = (e.clientX - cx) / (rect.width  / 2);
-      const dy     = (e.clientY - cy) / (rect.height / 2);
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
       const maxRot = 6;
 
       card.style.transform = `perspective(800px) rotateX(${-dy * maxRot}deg) rotateY(${dx * maxRot}deg) translateY(-4px)`;
@@ -339,7 +339,7 @@
   // Initialize EmailJS with your Public Key
   // REPLACE "YOUR_PUBLIC_KEY" with your actual key from EmailJS dashboard
   if (typeof emailjs !== 'undefined') {
-    emailjs.init("YOUR_PUBLIC_KEY"); 
+    emailjs.init("ufQXC2QkfbIlLz-Jx");
   }
 
   form.addEventListener('submit', e => {
@@ -355,20 +355,20 @@
     const btn = form.querySelector('.form-submit');
     const originalContent = btn.innerHTML;
 
-    btn.innerHTML  = '<span>⏳ Sending…</span>';
-    btn.disabled   = true;
+    btn.innerHTML = '<span>⏳ Sending…</span>';
+    btn.disabled = true;
 
     // Use EmailJS to send the form
     // REPLACE "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID"
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form)
+    emailjs.sendForm('service_x6hr7zc', 'template_fsu77ml', form)
       .then(() => {
         btn.innerHTML = originalContent;
-        btn.disabled  = false;
+        btn.disabled = false;
         form.reset();
         showToast('✓ Message sent! I\'ll get back to you soon. 🚀');
       }, (error) => {
         btn.innerHTML = originalContent;
-        btn.disabled  = false;
+        btn.disabled = false;
         console.error('EmailJS Error:', error);
         showToast('❌ Failed to send message. Please try again.', 'error');
       });
@@ -413,7 +413,7 @@ function showToast(message, type = 'success') {
       requestAnimationFrame(() => {
         const scrollY = window.scrollY;
         heroContent.style.transform = `translateY(${scrollY * 0.25}px)`;
-        heroContent.style.opacity   = Math.max(0, 1 - scrollY / 600);
+        heroContent.style.opacity = Math.max(0, 1 - scrollY / 600);
         ticking = false;
       });
       ticking = true;
@@ -427,7 +427,7 @@ function showToast(message, type = 'success') {
 ──────────────────────────────────────── */
 (function initScrollSpy() {
   const sections = document.querySelectorAll('section[id]');
-  const navLinks  = document.querySelectorAll('.nav-links a[href^="#"]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -450,8 +450,8 @@ function showToast(message, type = 'success') {
   document.querySelectorAll('.btn-primary').forEach(btn => {
     btn.addEventListener('mousemove', e => {
       const rect = btn.getBoundingClientRect();
-      const dx   = (e.clientX - rect.left - rect.width / 2) * 0.25;
-      const dy   = (e.clientY - rect.top  - rect.height / 2) * 0.25;
+      const dx = (e.clientX - rect.left - rect.width / 2) * 0.25;
+      const dy = (e.clientY - rect.top - rect.height / 2) * 0.25;
       btn.style.transform = `translate(${dx}px, ${dy}px) translateY(-2px)`;
     });
 
@@ -479,10 +479,10 @@ function showToast(message, type = 'success') {
   // Re-focus the iframe whenever the user clicks inside the modal body
   const modalBody = modal.querySelector('.modal-body');
   modalBody.addEventListener('mousedown', () => {
-    try { iframe.contentWindow && iframe.contentWindow.focus(); } catch(e) {}
+    try { iframe.contentWindow && iframe.contentWindow.focus(); } catch (e) { }
   });
   modalBody.addEventListener('click', () => {
-    try { iframe.contentWindow && iframe.contentWindow.focus(); } catch(e) {}
+    try { iframe.contentWindow && iframe.contentWindow.focus(); } catch (e) { }
   });
 
   function openModal(url, projectTitle) {
@@ -499,7 +499,7 @@ function showToast(message, type = 'success') {
       loader.style.opacity = '0';
       iframe.classList.add('loaded');
       // Give focus to the game as soon as it loads
-      try { iframe.contentWindow && iframe.contentWindow.focus(); } catch(e) {}
+      try { iframe.contentWindow && iframe.contentWindow.focus(); } catch (e) { }
     };
   }
 
