@@ -338,7 +338,7 @@
 
   // SOSTITUISCI CON LE TUE CHIAVI ESATTE
   const PUBLIC_KEY = "ufQXC2QkfbIlLz-Jx";
-  const SERVICE_ID = "service_x6hr7zc";
+  const SERVICE_ID = "service_qyyzulh";
   const TEMPLATE_ID = "template_wepk9qh";
 
   if (typeof window.emailjs !== 'undefined') {
