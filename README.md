@@ -66,7 +66,7 @@ Apri l'indirizzo mostrato nel terminale (solitamente `http://localhost:5173`) su
 ## 📬 Contatti e Info
 
 - **Sviluppatore:** Angelo Del Piano
-- **Età:** 16 anni
+- **Età:** 17 anni
 - **Nazionalità:** Italiana 🇮🇹
 - **Email:** [angelodelpiano2317@gmail.com](mailto:angelodelpiano2317@gmail.com)
 - **GitHub:** [@bhaki18](https://github.com/bhaki18)
