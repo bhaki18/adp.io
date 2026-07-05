@@ -672,6 +672,18 @@ function showToast(message, type = 'success') {
         html_url: 'https://github.com/bhaki18/adp.io',
         homepage: '',
         topics: ['HTML5', 'CSS3', 'Vanilla-JS', 'Portfolio']
+      },
+      {
+        name: 'Neural-Workbench',
+        description: 'A workspace or laboratory for experimenting with neural networks and machine learning models.',
+        language: 'TypeScript',
+        stargazers_count: 0,
+        forks_count: 0,
+        pushed_at: new Date().toISOString(),
+        default_branch: 'main',
+        html_url: 'https://github.com/bhaki18/Neural-Workbench',
+        homepage: '',
+        topics: ['Neural-Networks', 'Machine-Learning', 'TypeScript']
       }
     ];
 
