@@ -17,6 +17,10 @@
 
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Markdown Parser & DOM Purifier for GitHub README Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 </head>
 
 <body>
@@ -89,7 +93,7 @@
 
                     <!-- Subheadline -->
                     <p class="hero-sub">
-                        I'm a 16 year old developer from Italy who loves creating projects for everything and everyone.
+                        I'm a <span class="dynamic-age">16</span> year old developer from Italy who loves creating projects for everything and everyone.
                         Got an idea or a request? Let's make it real.
                     </p>
 
@@ -203,91 +207,21 @@
                 <div class="section-header">
                     <div class="section-eyebrow">Our Work</div>
                     <h2 class="section-title reveal">Projects that <span>push limits</span>.</h2>
-                    <p class="section-desc reveal reveal-delay-1">A showcase of our latest games, websites, and
-                        experimental digital experiences.</p>
+                    <p class="section-desc reveal reveal-delay-1">A live-syncing showcase of my repositories, games, and code experiments straight from GitHub.</p>
                 </div>
 
-                <div class="projects-grid">
+                <!-- GitHub Search / Filter Controls -->
+                <div class="projects-filter-container show-filter reveal reveal-delay-1" id="github-filter-wrap">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="repo-search" placeholder="Search repositories by name, tag, or description...">
+                        <button id="clear-search" class="clear-btn" aria-label="Clear search">✕</button>
+                    </div>
+                </div>
 
-                    <!-- Project 1 — Neutraled -->
-                    <article class="glass-card project-card playable reveal reveal-delay-1"
-                        data-url="https://bhaki18.github.io/neutraled" data-title="Neutraled — Squad Arena">
-                        <div class="project-thumb">
-                            <div class="project-thumb-bg pt-4"></div>
-                            <div class="project-thumb-glow pg-4"></div>
-                            <div class="project-thumb-label">01</div>
-                            <div class="play-overlay">
-                                <span class="play-icon">▶</span>
-                                <span class="play-text">Click to Play</span>
-                            </div>
-                        </div>
-                        <div class="project-body">
-                            <span class="project-tag pt-tag-4">Multiplayer Game</span>
-                            <h3>Neutraled — Squad Arena</h3>
-                            <p>A real-time multiplayer game built with Phaser 3 and Colyseus. Experience authoritative
-                                movement and seamless synchronization.</p>
-                            <div class="project-footer">
-                                <div class="project-tech">
-                                    <span class="tech-pill">Phaser 3</span>
-                                    <span class="tech-pill">Colyseus</span>
-                                    <span class="tech-pill">Node.js</span>
-                                </div>
-                                <button class="project-link play-trigger">Play →</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 2 — 3D Rendering Engine -->
-                    <article class="glass-card project-card playable reveal reveal-delay-2"
-                        data-url="https://bhaki18.github.io/phaser-3D/" data-title="3D Rendering Engine">
-                        <div class="project-thumb">
-                            <div class="project-thumb-bg pt-2"></div>
-                            <div class="project-thumb-glow pg-2"></div>
-                            <div class="project-thumb-label">02</div>
-                            <div class="play-overlay">
-                                <span class="play-icon">▶</span>
-                                <span class="play-text">Click to Play</span>
-                            </div>
-                        </div>
-                        <div class="project-body">
-                            <span class="project-tag pt-tag-2">Engine</span>
-                            <h3>3D Rendering Engine</h3>
-                            <p>A high-performance rendering engine featuring custom shaders, real-time lighting, and
-                                advanced geometry processing.</p>
-                            <div class="project-footer">
-                                <div class="project-tech">
-                                    <span class="tech-pill">WebGL</span>
-                                    <span class="tech-pill">Three.js</span>
-                                    <span class="tech-pill">GLSL</span>
-                                </div>
-                                <button class="project-link play-trigger">Play →</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 3 — ADP.io -->
-                    <article class="glass-card project-card reveal reveal-delay-3">
-                        <div class="project-thumb">
-                            <div class="project-thumb-bg pt-3"></div>
-                            <div class="project-thumb-glow pg-3"></div>
-                            <div class="project-thumb-label">03</div>
-                        </div>
-                        <div class="project-body">
-                            <span class="project-tag pt-tag-3">Website</span>
-                            <h3>ADP.io</h3>
-                            <p>This very portfolio — a handcrafted dark glassmorphism experience built with vanilla
-                                technologies. No frameworks, pure performance.</p>
-                            <div class="project-footer">
-                                <div class="project-tech">
-                                    <span class="tech-pill">HTML5</span>
-                                    <span class="tech-pill">CSS3</span>
-                                    <span class="tech-pill">Vanilla JS</span>
-                                </div>
-                                <a href="#home" class="project-link">Home ↑</a>
-                            </div>
-                        </div>
-                    </article>
-
+                <!-- GitHub Projects Grid -->
+                <div class="projects-grid" id="github-projects">
+                    <!-- Dynamic Repository Cards loaded via main.js -->
                 </div>
             </div>
         </section>
@@ -306,7 +240,7 @@
                             <div class="about-avatar-ring">👨‍💻</div>
                             <div class="about-name">Angelo Del Piano</div>
                             <div class="about-role">Web Developer · Game Developer · Italy 🇮🇹</div>
-                            <p class="about-bio">I'm 16 years old and I love creating projects for everything and
+                            <p class="about-bio">I'm <span class="dynamic-age">16</span> years old and I love creating projects for everything and
                                 everyone. Whether it's a game, a website, or something brand new — I'm always building.
                             </p>
                         </div>
@@ -318,7 +252,7 @@
                         <h2 class="reveal">I'm a <em>developer</em> who ships.</h2>
 
                         <p class="reveal reveal-delay-1">
-                            My name is Angelo Del Piano — ADP for short. I'm a 16 year old self-taught developer
+                            My name is Angelo Del Piano — ADP for short. I'm a <span class="dynamic-age">16</span> year old self-taught developer
                             from Italy with a passion for web and game development. I've been building things since
                             I was a kid and I'm not stopping anytime soon.
                         </p>
@@ -442,6 +376,29 @@
                     </div>
                     <iframe id="modal-iframe" src="" frameborder="0" allowfullscreen
                         allow="pointer-lock *; autoplay; fullscreen"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- README Modal -->
+        <div class="play-modal" id="readme-modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content glass-card readme-modal-content">
+                <div class="modal-header">
+                    <h3 id="readme-modal-title">Repository README</h3>
+                    <div class="modal-actions">
+                        <a href="#" id="readme-modal-external" target="_blank" class="modal-btn">Open on GitHub ↗</a>
+                        <button class="modal-close" id="readme-modal-close">✕</button>
+                    </div>
+                </div>
+                <div class="modal-body readme-modal-body">
+                    <div class="modal-loader" id="readme-loader">
+                        <div class="spinner"></div>
+                        <span>Fetching README from GitHub...</span>
+                    </div>
+                    <div class="markdown-body" id="readme-content">
+                        <!-- Loaded and parsed dynamically -->
+                    </div>
                 </div>
             </div>
         </div>

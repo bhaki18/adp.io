@@ -1261,6 +1261,18 @@ textarea { min-height: 120px; }
   opacity: 1;
 }
 
+.toast.error {
+  background: rgba(239,68,68,0.15);
+  border-color: rgba(239,68,68,0.4);
+  color: #ef4444;
+}
+
+.toast.warning {
+  background: rgba(245,158,11,0.15);
+  border-color: rgba(245,158,11,0.4);
+  color: var(--clr-amber);
+}
+
 /* ══════════════════════════════
    ANIMATIONS
 ══════════════════════════════ */
@@ -1327,3 +1339,347 @@ textarea { min-height: 120px; }
   .projects-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════
+   PROJECT TABS & FILTERING
+   (Added for GitHub integration)
+══════════════════════════════ */
+
+.projects-tabs-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.projects-tabs {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--clr-border);
+  backdrop-filter: var(--blur-sm);
+}
+
+.tab-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--clr-text2);
+  background: transparent;
+  border: none;
+  padding: 10px 24px;
+  border-radius: calc(var(--radius-md) - 4px);
+  cursor: pointer;
+  transition: all var(--t-base);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  color: var(--clr-text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tab-btn.active {
+  color: #fff;
+  background: var(--grad-primary);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.35);
+}
+
+.tab-icon {
+  font-size: 16px;
+}
+
+/* GitHub Search Box */
+.projects-filter-container {
+  max-width: 580px;
+  margin: 0 auto 36px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all var(--t-base);
+}
+
+.projects-filter-container.show-filter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: 4px 16px;
+  backdrop-filter: var(--blur-sm);
+  transition: border-color var(--t-base), box-shadow var(--t-base);
+}
+
+.search-box:focus-within {
+  border-color: var(--clr-purple-l);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+}
+
+.search-icon {
+  font-size: 16px;
+  color: var(--clr-text3);
+  margin-right: 12px;
+}
+
+.search-box input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--clr-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 12px 0;
+}
+
+.search-box input::placeholder {
+  color: var(--clr-text3);
+}
+
+.clear-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--clr-text3);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--t-fast);
+}
+
+.clear-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.clear-btn:hover {
+  color: var(--clr-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* GitHub repo card customization */
+.project-card .repo-meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--clr-text3);
+}
+
+.repo-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.repo-lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: var(--clr-text3);
+}
+
+/* Dynamic repo status badges */
+.github-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--clr-text3);
+  margin-bottom: 8px;
+}
+
+.status-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--clr-green);
+  box-shadow: 0 0 8px var(--clr-green);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Utility Display helper */
+.d-none {
+  display: none !important;
+}
+
+/* Skeleton Loading State */
+.skeleton-card {
+  height: 380px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid var(--clr-border) !important;
+}
+
+.skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.skeleton-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.skeleton-thumb {
+  height: 150px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+
+.skeleton-line {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.skeleton-line.title { width: 60%; height: 24px; }
+.skeleton-line.text1 { width: 90%; height: 14px; }
+.skeleton-line.text2 { width: 80%; height: 14px; }
+.skeleton-line.footer { width: 100%; height: 32px; margin-top: auto; margin-bottom: 0; }
+
+/* ── README Modal Content ── */
+.readme-modal-content {
+  max-width: 900px;
+  height: 80vh;
+}
+
+.readme-modal-body {
+  padding: 32px 40px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* Markdown styling inside README */
+.markdown-body {
+  color: var(--clr-text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.markdown-body h1, 
+.markdown-body h2, 
+.markdown-body h3, 
+.markdown-body h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  color: #fff;
+  font-weight: 700;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.markdown-body h1 { font-size: 26px; border-bottom: 1px solid var(--clr-border); padding-bottom: 10px; }
+.markdown-body h2 { font-size: 22px; border-bottom: 1px solid var(--clr-border); padding-bottom: 8px; }
+.markdown-body h3 { font-size: 18px; }
+
+.markdown-body p {
+  margin-bottom: 16px;
+  color: var(--clr-text2);
+}
+
+.markdown-body ul, 
+.markdown-body ol {
+  margin-bottom: 16px;
+  padding-left: 20px;
+  color: var(--clr-text2);
+}
+
+.markdown-body li {
+  margin-bottom: 6px;
+}
+
+.markdown-body code {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 85%;
+  color: var(--clr-cyan-l);
+}
+
+.markdown-body pre {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--clr-border);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 13px;
+  color: var(--clr-text);
+  line-height: 1.5;
+}
+
+.markdown-body a {
+  color: var(--clr-purple-l);
+  text-decoration: none;
+  font-weight: 500;
+  transition: text-decoration var(--t-fast);
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid var(--clr-purple);
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  background: rgba(124, 58, 237, 0.05);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin: 16px 0;
+  border: 1px solid var(--clr-border);
+}
+

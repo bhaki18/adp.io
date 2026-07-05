@@ -7,6 +7,42 @@
 'use strict';
 
 /* ────────────────────────────────────────
+   0. DYNAMIC AGE CALCULATION
+──────────────────────────────────────── */
+(function initAge() {
+  function calculateAge(birthDateString) {
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  const age = calculateAge('2009-05-02');
+  
+  // Update all elements with class 'dynamic-age'
+  document.querySelectorAll('.dynamic-age').forEach(el => {
+    el.textContent = age;
+  });
+
+  // Update stat age counter data-count attribute
+  const statAge = document.getElementById('stat-age');
+  if (statAge) {
+    statAge.setAttribute('data-count', age);
+    statAge.textContent = age;
+  }
+
+  // Also update meta description for SEO (if exists)
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute('content', `Angelo Del Piano — ${age} year old web & game developer from Italy. I love creating projects for everyone. Let's build something together!`);
+  }
+})();
+
+/* ────────────────────────────────────────
    1. CANVAS BACKGROUND — Particle Network
 ──────────────────────────────────────── */
 (function initCanvas() {
@@ -394,7 +430,7 @@ function showToast(message, type = 'success') {
   document.querySelectorAll('.toast').forEach(t => t.remove());
 
   const toast = document.createElement('div');
-  toast.className = 'toast';
+  toast.className = `toast ${type}`;
   toast.textContent = message;
   document.body.appendChild(toast);
 
@@ -551,8 +587,488 @@ function showToast(message, type = 'success') {
       closeModal();
     }
   });
+
+  // Expose play modal function globally for dynamic card bindings
+  window.openProjectPlayer = openModal;
 })();
 
+
+/* ────────────────────────────────────────
+   13.5. GITHUB API INTEGRATION
+──────────────────────────────────────── */
+(function initGitHubIntegration() {
+  const githubUser = 'bhaki18';
+  const githubGrid = document.getElementById('github-projects');
+  const filterWrap = document.getElementById('github-filter-wrap');
+  const searchInput = document.getElementById('repo-search');
+  const clearSearchBtn = document.getElementById('clear-search');
+  
+  // README Modal elements
+  const readmeModal = document.getElementById('readme-modal');
+  const readmeTitle = document.getElementById('readme-modal-title');
+  const readmeContent = document.getElementById('readme-content');
+  const readmeExternal = document.getElementById('readme-modal-external');
+  const readmeClose = document.getElementById('readme-modal-close');
+  const readmeBackdrop = readmeModal ? readmeModal.querySelector('.modal-backdrop') : null;
+  const readmeLoader = document.getElementById('readme-loader');
+
+  let repositories = [];
+
+  if (!githubGrid) return;
+
+  // 1. Fetch Repositories on page load
+  fetchRepositories();
+
+  // 2. Fetch Repositories from GitHub API (with offline fallback)
+  function fetchRepositories() {
+    renderSkeletons();
+    
+    // Curated fallback repositories in case of API failure, rate limiting, or offline mode
+    const fallbackRepos = [
+      {
+        name: 'cyberPunch67',
+        description: 'Un picchiaduro 2D futuristico sviluppato in Phaser JS, Socket.io e Node.js. Modalità Arcade a 100 NPC, multiplayer ranked e sblocchi progressivi.',
+        language: 'JavaScript',
+        stargazers_count: 5,
+        forks_count: 1,
+        pushed_at: new Date().toISOString(),
+        default_branch: 'main',
+        html_url: 'https://github.com/bhaki18/cyberPunch67',
+        homepage: 'https://mellow-paprenjak-b3d7d3.netlify.app',
+        topics: ['Phaser', 'Socket.io', 'Node.js', 'Multiplayer']
+      },
+      {
+        name: 'neutraled',
+        description: 'A real-time multiplayer game built with Phaser 3 and Colyseus. Experience authoritative movement and seamless synchronization.',
+        language: 'JavaScript',
+        stargazers_count: 5,
+        forks_count: 2,
+        pushed_at: '2026-07-01T12:00:00Z',
+        default_branch: 'main',
+        html_url: 'https://github.com/bhaki18/neutraled',
+        homepage: 'https://bhaki18.github.io/neutraled',
+        topics: ['Phaser-3', 'Colyseus', 'Node.js', 'Multiplayer']
+      },
+      {
+        name: 'phaser-3D',
+        description: 'A high-performance rendering engine featuring custom shaders, real-time lighting, and advanced geometry processing.',
+        language: 'WebGL',
+        stargazers_count: 8,
+        forks_count: 1,
+        pushed_at: '2026-06-15T12:00:00Z',
+        default_branch: 'main',
+        html_url: 'https://github.com/bhaki18/phaser-3D',
+        homepage: 'https://bhaki18.github.io/phaser-3D/',
+        topics: ['WebGL', 'Three.js', 'GLSL', 'Graphics']
+      },
+      {
+        name: 'adp.io',
+        description: 'This very portfolio — a handcrafted dark glassmorphism experience built with vanilla technologies. No frameworks, pure performance.',
+        language: 'HTML',
+        stargazers_count: 3,
+        forks_count: 0,
+        pushed_at: '2026-07-05T07:00:00Z',
+        default_branch: 'main',
+        html_url: 'https://github.com/bhaki18/adp.io',
+        homepage: '',
+        topics: ['HTML5', 'CSS3', 'Vanilla-JS', 'Portfolio']
+      }
+    ];
+
+    fetch(`https://api.github.com/users/${githubUser}/repos?sort=updated&per_page=100`)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to fetch repositories (Status ${res.status})`);
+        return res.json();
+      })
+      .then(data => {
+        // Filter out forks and keep only public user repos
+        repositories = data.filter(repo => !repo.fork);
+        
+        // Force inject cyberPunch67 if it's missing (since it's a private repo and won't show up in public API)
+        if (!repositories.some(repo => repo.name.toLowerCase() === 'cyberpunch67')) {
+          repositories.push({
+            name: 'cyberPunch67',
+            description: 'Un picchiaduro 2D futuristico sviluppato in Phaser JS, Socket.io e Node.js. Modalità Arcade a 100 NPC, multiplayer ranked e sblocchi progressivi.',
+            language: 'JavaScript',
+            stargazers_count: 5,
+            forks_count: 1,
+            pushed_at: new Date().toISOString(),
+            default_branch: 'main',
+            html_url: 'https://github.com/bhaki18/cyberPunch67',
+            homepage: 'https://mellow-paprenjak-b3d7d3.netlify.app',
+            topics: ['Phaser', 'Socket.io', 'Node.js', 'Multiplayer']
+          });
+        }
+        
+        // Sort repositories so ones with more stars or recent pushes are shown
+        repositories.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+        
+        renderRepositories(repositories);
+        updateProjectCount(repositories.length);
+      })
+      .catch(err => {
+        console.warn("GitHub API failed or rate-limited. Loading fallback offline projects:", err);
+        repositories = fallbackRepos;
+        renderRepositories(repositories);
+        updateProjectCount(repositories.length);
+        
+        // Show warning toast for local developers
+        if (typeof showToast === 'function') {
+          showToast('⚠️ GitHub API rate limit reached. Showing offline cache.', 'warning');
+        }
+      });
+  }
+
+  // 3. Render Skeleton Loaders
+  function renderSkeletons() {
+    let skeletonHTML = '';
+    for (let i = 0; i < 6; i++) {
+      skeletonHTML += `
+        <div class="glass-card skeleton-card">
+          <div class="skeleton-shimmer"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line text1"></div>
+            <div class="skeleton-line text2"></div>
+            <div class="skeleton-line footer"></div>
+          </div>
+        </div>
+      `;
+    }
+    githubGrid.innerHTML = skeletonHTML;
+  }
+
+  // Update Projects Stat value in hero section dynamically
+  function updateProjectCount(count) {
+    const statProj = document.getElementById('stat-projects');
+    if (statProj) {
+      const prevCount = parseInt(statProj.textContent) || 3;
+      statProj.setAttribute('data-count', count);
+      
+      // Animate from prevCount to new count smoothly
+      let start = null;
+      const duration = 1500;
+      function step(ts) {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const current = Math.floor(prevCount + (count - prevCount) * eased);
+        statProj.textContent = current + '+';
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+  }
+
+  // 4. Render Repository Cards
+  function renderRepositories(repos) {
+    if (repos.length === 0) {
+      githubGrid.innerHTML = `
+        <div class="glass-card" style="grid-column: 1/-1; padding: 40px; text-align: center;">
+          <p style="color: var(--clr-text2);">No repositories match your search query.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Thumb gradients and glow colors based on language
+    const getGradientsForLang = (lang) => {
+      const l = (lang || '').toLowerCase();
+      if (l.includes('javascript') || l.includes('js')) {
+        return {
+          bg: 'linear-gradient(135deg, #1e1b04 0%, #3a320b 50%, #0d0c03 100%)',
+          glow: 'radial-gradient(#eab308, transparent)',
+          tagColor: '#eab308',
+          tagBg: 'rgba(234, 179, 8, 0.1)',
+          tagBorder: 'rgba(234, 179, 8, 0.3)'
+        };
+      } else if (l.includes('typescript') || l.includes('ts')) {
+        return {
+          bg: 'linear-gradient(135deg, #05142a 0%, #08244f 50%, #020b18 100%)',
+          glow: 'radial-gradient(#3b82f6, transparent)',
+          tagColor: '#3b82f6',
+          tagBg: 'rgba(59, 130, 246, 0.1)',
+          tagBorder: 'rgba(59, 130, 246, 0.3)'
+        };
+      } else if (l.includes('html')) {
+        return {
+          bg: 'linear-gradient(135deg, #2a0c02 0%, #4f1d07 50%, #150802 100%)',
+          glow: 'radial-gradient(#f97316, transparent)',
+          tagColor: '#f97316',
+          tagBg: 'rgba(249, 115, 22, 0.1)',
+          tagBorder: 'rgba(249, 115, 22, 0.3)'
+        };
+      } else if (l.includes('css')) {
+        return {
+          bg: 'linear-gradient(135deg, #05202a 0%, #083c4f 50%, #021118 100%)',
+          glow: 'radial-gradient(#06b6d4, transparent)',
+          tagColor: '#06b6d4',
+          tagBg: 'rgba(6, 182, 212, 0.1)',
+          tagBorder: 'rgba(6, 182, 212, 0.3)'
+        };
+      } else if (l.includes('c#') || l.includes('csharp')) {
+        return {
+          bg: 'linear-gradient(135deg, #15052a 0%, #29084f 50%, #0b0218 100%)',
+          glow: 'radial-gradient(#a855f7, transparent)',
+          tagColor: '#a855f7',
+          tagBg: 'rgba(168, 85, 247, 0.1)',
+          tagBorder: 'rgba(168, 85, 247, 0.3)'
+        };
+      }
+      // Default purple-cyan gradient
+      return {
+        bg: 'linear-gradient(135deg, #100520 0%, #081d2c 50%, #03080e 100%)',
+        glow: 'radial-gradient(var(--clr-purple), transparent)',
+        tagColor: 'var(--clr-purple-l)',
+        tagBg: 'rgba(124, 58, 237, 0.1)',
+        tagBorder: 'rgba(124, 58, 237, 0.3)'
+      };
+    };
+
+    githubGrid.innerHTML = repos.map((repo, idx) => {
+      const styleTokens = getGradientsForLang(repo.language);
+      const numLabel = String(idx + 1).padStart(2, '0');
+      const date = new Date(repo.pushed_at).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+
+      const language = repo.language || 'Code';
+
+      // Check if project has a play URL (homepage)
+      const playUrl = repo.homepage || '';
+      const hasPlayUrl = playUrl.length > 0;
+      const cardPlayableClass = hasPlayUrl ? 'playable' : '';
+      const playOverlayHTML = hasPlayUrl ? `
+        <div class="play-overlay">
+          <span class="play-icon">▶</span>
+          <span class="play-text">Click to Play</span>
+        </div>
+      ` : '';
+
+      return `
+        <article class="glass-card project-card ${cardPlayableClass} reveal revealed" 
+                 data-url="${playUrl}" data-title="${repo.name}"
+                 style="transition-delay: ${ (idx % 3) * 0.1 }s;">
+          <div class="project-thumb">
+            <div class="project-thumb-bg" style="background: ${styleTokens.bg};"></div>
+            <div class="project-thumb-glow" style="background: ${styleTokens.glow}; opacity: 0.8;"></div>
+            <div class="project-thumb-label">${numLabel}</div>
+            ${playOverlayHTML}
+          </div>
+          <div class="project-body">
+            <div class="github-status-badge">
+              <span class="status-indicator"></span>
+              <span>Pushed ${date}</span>
+            </div>
+            <span class="project-tag" style="color: ${styleTokens.tagColor}; border-color: ${styleTokens.tagBorder}; background: ${styleTokens.tagBg};">
+              ${language}
+            </span>
+            <h3>${repo.name}</h3>
+            <p>${repo.description || 'No description provided. Click below to inspect the codebase and read the documentation.'}</p>
+            
+            <div class="repo-meta">
+              <div class="repo-meta-item" title="Stars">
+                <span>⭐</span>
+                <span>${repo.stargazers_count}</span>
+              </div>
+              <div class="repo-meta-item" title="Forks">
+                <span>🍴</span>
+                <span>${repo.forks_count}</span>
+              </div>
+            </div>
+
+            <div class="project-footer">
+              <div class="project-tech">
+                ${repo.topics ? repo.topics.slice(0, 3).map(topic => `<span class="tech-pill">${topic}</span>`).join('') : ''}
+              </div>
+              <div style="display: flex; gap: 8px;">
+                ${hasPlayUrl ? `<button class="project-link play-trigger" data-url="${playUrl}" data-title="${repo.name}">Play →</button>` : ''}
+                <button class="project-link readme-trigger" data-repo="${repo.name}" data-branch="${repo.default_branch}" data-url="${repo.html_url}">
+                  Readme →
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    setupDynamicTilt();
+
+    // Bind click events on playable cards (card body)
+    githubGrid.querySelectorAll('.project-card.playable').forEach(card => {
+      card.addEventListener('click', (e) => {
+        // Prevent click trigger if they click footer buttons
+        if (e.target.closest('.project-link') || e.target.closest('.readme-trigger') || e.target.closest('.play-trigger')) return;
+        const url = card.dataset.url;
+        const projectTitle = card.dataset.title;
+        if (url && typeof window.openProjectPlayer === 'function') {
+          window.openProjectPlayer(url, projectTitle);
+        }
+      });
+    });
+
+    // Bind to play button click
+    githubGrid.querySelectorAll('.play-trigger').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const url = btn.dataset.url;
+        const projectTitle = btn.dataset.title;
+        if (url && typeof window.openProjectPlayer === 'function') {
+          window.openProjectPlayer(url, projectTitle);
+        }
+      });
+    });
+
+    // Setup README click triggers
+    document.querySelectorAll('.readme-trigger').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const repoName = btn.dataset.repo;
+        const defaultBranch = btn.dataset.branch || 'main';
+        const githubUrl = btn.dataset.url;
+        openReadmeModal(repoName, defaultBranch, githubUrl);
+      });
+    });
+  }
+
+  function setupDynamicTilt() {
+    githubGrid.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) / (rect.width / 2);
+        const dy = (e.clientY - cy) / (rect.height / 2);
+        const maxRot = 6;
+        card.style.transform = `perspective(800px) rotateX(${-dy * maxRot}deg) rotateY(${dx * maxRot}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const val = searchInput.value.toLowerCase().trim();
+      
+      if (val.length > 0) {
+        clearSearchBtn.classList.add('visible');
+      } else {
+        clearSearchBtn.classList.remove('visible');
+      }
+
+      const filtered = repositories.filter(repo => {
+        const nameMatch = repo.name.toLowerCase().includes(val);
+        const descMatch = (repo.description || '').toLowerCase().includes(val);
+        const langMatch = (repo.language || '').toLowerCase().includes(val);
+        const topicMatch = repo.topics ? repo.topics.some(t => t.toLowerCase().includes(val)) : false;
+        return nameMatch || descMatch || langMatch || topicMatch;
+      });
+
+      renderRepositories(filtered);
+    });
+  }
+
+  if (clearSearchBtn && searchInput) {
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      clearSearchBtn.classList.remove('visible');
+      renderRepositories(repositories);
+      searchInput.focus();
+    });
+  }
+
+  function openReadmeModal(repoName, defaultBranch, githubUrl) {
+    if (!readmeModal) return;
+
+    readmeTitle.textContent = `${repoName} — README.md`;
+    readmeExternal.href = githubUrl;
+    readmeContent.innerHTML = '';
+    readmeModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    readmeLoader.style.opacity = '1';
+    readmeLoader.style.display = 'flex';
+
+    fetchReadme(repoName, defaultBranch)
+      .catch(() => fetchReadme(repoName, 'master'))
+      .catch(() => fetchReadme(repoName, 'main'))
+      .catch(err => {
+        console.error(err);
+        readmeLoader.style.opacity = '0';
+        readmeLoader.style.display = 'none';
+        readmeContent.innerHTML = `
+          <div style="text-align:center; padding: 40px 0;">
+            <span style="font-size: 48px; display:block; margin-bottom:16px;">📄</span>
+            <h3 style="color:#fff; margin-bottom:10px;">README.md Not Found</h3>
+            <p style="color:var(--clr-text2); max-width:460px; margin: 0 auto 20px;">
+              This repository doesn't have a standard README.md file in its root directory or it could not be fetched.
+            </p>
+            <a href="${githubUrl}" target="_blank" class="btn btn-primary">Open Repository on GitHub</a>
+          </div>
+        `;
+      });
+  }
+
+  function fetchReadme(repoName, branch) {
+    const isLocal = repoName.toLowerCase() === 'cyberpunch67';
+    const url = isLocal 
+      ? `./html/cyberpunch67-readme.md` 
+      : `https://raw.githubusercontent.com/${githubUser}/${repoName}/${branch}/README.md`;
+      
+    return fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error(`Not found on branch ${branch} (Status ${res.status})`);
+        return res.text();
+      })
+      .then(markdown => {
+        readmeLoader.style.opacity = '0';
+        readmeLoader.style.display = 'none';
+        
+        if (typeof marked !== 'undefined') {
+          marked.setOptions({
+            gfm: true,
+            breaks: true
+          });
+          const parsedHTML = marked.parse(markdown);
+          const cleanHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(parsedHTML) : parsedHTML;
+          readmeContent.innerHTML = cleanHTML;
+        } else {
+          readmeContent.innerHTML = `<pre><code>${escapeHTML(markdown)}</code></pre>`;
+        }
+      });
+  }
+
+  function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+  }
+
+  function closeReadmeModal() {
+    if (!readmeModal) return;
+    readmeModal.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      readmeContent.innerHTML = '';
+    }, 400);
+  }
+
+  if (readmeClose) readmeClose.addEventListener('click', closeReadmeModal);
+  if (readmeBackdrop) readmeBackdrop.addEventListener('click', closeReadmeModal);
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && readmeModal && readmeModal.classList.contains('active')) {
+      closeReadmeModal();
+    }
+  });
+})();
 
 /* ────────────────────────────────────────
    14. LOG WELCOME
