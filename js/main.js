@@ -1017,9 +1017,14 @@ function showToast(message, type = 'success') {
   }
 
   function fetchReadme(repoName, branch) {
-    const isLocal = repoName.toLowerCase() === 'cyberpunch67';
-    const url = isLocal 
+    const normalizedName = repoName.toLowerCase();
+    const isLocalCyberPunch = normalizedName === 'cyberpunch67';
+    const isLocalPhaser3D = normalizedName === 'phaser-3d' || normalizedName === 'phaser3d';
+    
+    const url = isLocalCyberPunch 
       ? `./html/cyberpunch67-readme.md` 
+      : isLocalPhaser3D
+      ? `./html/phaser-3D-readme.md`
       : `https://raw.githubusercontent.com/${githubUser}/${repoName}/${branch}/README.md`;
       
     return fetch(url)
