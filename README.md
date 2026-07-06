@@ -1,6 +1,6 @@
 # 🌌 ADP.io — Premium Developer Portfolio & Hub
 
-Benvenuto nella repository ufficiale di **[adp.io](https://bhaki18.github.io/adp.io)**, il portfolio professionale di **Angelo Del Piano (ADP)**, sviluppatore Web & Game di 16 anni residente in Italia.
+Benvenuto nella repository ufficiale di **[adp.io](https://bhaki18.github.io/adp.io)**, il portfolio professionale di **Angelo Del Piano (ADP)**, sviluppatore Web & Game di 17 anni residente in Italia.
 
 Questo progetto è stato creato da zero per offrire un'esperienza visiva premium, fluida e ricca di animazioni, incorporando l'integrazione in tempo reale delle repository di GitHub, un riproduttore di giochi integrato e una sezione contatti dinamica.
 
