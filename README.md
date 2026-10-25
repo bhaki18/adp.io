@@ -49,19 +49,6 @@ adp.io/
 
 ---
 
-## 🚀 Avvio Locale
-
-Puoi visualizzare e testare il sito localmente utilizzando **Vite** senza alcuna configurazione complessa.
-
-Esegui il server di sviluppo tramite:
-
-```bash
-npx vite
-```
-
-Apri l'indirizzo mostrato nel terminale (solitamente `http://localhost:5173`) sul tuo browser.
-
----
 
 ## 📬 Contatti e Info
 
