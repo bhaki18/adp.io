@@ -458,7 +458,6 @@ function updateDynamicAge() {
 
   const statAge = document.getElementById('stat-age');
   if (statAge) {
-    statAge.setAttribute('data-count', String(age));
     statAge.textContent = String(age);
   }
 
@@ -551,6 +550,9 @@ const I18N = {
     'sort.updated': 'Recently Updated',
     'sort.pinned': 'Pinned First',
     'sort.name': 'Name A–Z',
+    'filter.all': 'All',
+    'filter.pinned': 'Pinned',
+    'filter.live': 'Playable & Live',
     'craft.eyebrow': 'What I Build',
     'craft.title': 'Across the stack.',
     'craft.desc': 'From memory-safe CLI binaries and offline AI runners to 3D rasterizers and cross-platform desktop/mobile apps.',
@@ -642,6 +644,9 @@ const I18N = {
     'sort.updated': 'Aggiornate di Recente',
     'sort.pinned': 'Prima le Pinnate',
     'sort.name': 'Nome A–Z',
+    'filter.all': 'Tutte',
+    'filter.pinned': 'Pinnate',
+    'filter.live': 'Giocabili & Live',
     'craft.eyebrow': 'Cosa Costruisco',
     'craft.title': 'A tutto stack.',
     'craft.desc': 'Dai binari CLI memory-safe e runner AI offline fino a rasterizzatori 3D e app desktop/mobile multipiattaforma.',
@@ -848,63 +853,7 @@ const roleRotatorCtrl = (function initRoleRotator() {
 })();
 
 /* ────────────────────────────────────────
-   9. SCROLL REVEAL & METRIC COUNTERS
-──────────────────────────────────────── */
-(function initRevealAndCounters() {
-  const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    const revObs = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revObs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
-    );
-    reveals.forEach(el => revObs.observe(el));
-  } else {
-    reveals.forEach(el => el.classList.add('revealed'));
-  }
-
-  const counters = document.querySelectorAll('[data-count]');
-  counters.forEach(el => {
-    const target = parseInt(el.dataset.count, 10);
-    const suffix = el.dataset.suffix || '';
-    if (Number.isNaN(target) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    let started = false;
-    const obs = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !started) {
-            started = true;
-            obs.unobserve(el);
-            const currentTarget = parseInt(el.dataset.count, 10) || target;
-            const currentSuffix = el.dataset.suffix || suffix;
-            const duration = 900;
-            const startTs = performance.now();
-
-            function step(now) {
-              const p = Math.min((now - startTs) / duration, 1);
-              const eased = 1 - Math.pow(1 - p, 3);
-              el.textContent = `${Math.round(currentTarget * eased)}${currentSuffix}`;
-              if (p < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    obs.observe(el);
-  });
-})();
-
-/* ────────────────────────────────────────
-   10. MODALS (PLAYABLE DEMO & README)
+   9. MODALS (PLAYABLE DEMO & README)
 ──────────────────────────────────────── */
 const projectPlayer = (function initProjectPlayer() {
   const modal = document.getElementById('project-modal');
@@ -1148,6 +1097,18 @@ const githubExplorer = (function initGitHub() {
   let searchQuery = '';
   let sortMode = 'updated';
   let showAll = false;
+  let syncState = 'syncing';
+
+  const FILTER_LABELS = {
+    all: () => t('filter.all'),
+    pinned: () => t('filter.pinned'),
+    rust: () => 'Rust',
+    javascript: () => 'JavaScript',
+    c: () => 'C / C++',
+    python: () => 'Python',
+    'kotlin-ts': () => 'Kotlin & TS',
+    live: () => t('filter.live')
+  };
 
   if (!grid) return { refresh: () => {} };
 
@@ -1199,7 +1160,6 @@ const githubExplorer = (function initGitHub() {
   function updateSnapshotCard(repos) {
     const repoCountEl = document.getElementById('stat-repos');
     if (repoCountEl) {
-      repoCountEl.dataset.count = String(repos.length);
       repoCountEl.textContent = String(repos.length);
     }
 
@@ -1212,8 +1172,6 @@ const githubExplorer = (function initGitHub() {
     const uniqueLangs = Object.keys(langCounts).length;
     const langsEl = document.getElementById('stat-langs');
     if (langsEl) {
-      langsEl.dataset.count = String(uniqueLangs);
-      langsEl.dataset.suffix = '+';
       langsEl.textContent = `${uniqueLangs}+`;
     }
 
@@ -1258,9 +1216,9 @@ const githubExplorer = (function initGitHub() {
     }
   }
 
-  function matchesFilter(repo) {
+  function matchesFilterFor(repo, filterKey) {
     const lang = repo.language.toLowerCase();
-    switch (activeFilter) {
+    switch (filterKey) {
       case 'pinned':
         return repo.pinned;
       case 'rust':
@@ -1277,6 +1235,34 @@ const githubExplorer = (function initGitHub() {
         return Boolean(repo.playUrl || repo.liveUrl);
       default:
         return true;
+    }
+  }
+
+  function matchesFilter(repo) {
+    return matchesFilterFor(repo, activeFilter);
+  }
+
+  function updateFilterPillLabels(sourceRepos) {
+    if (!filterWrap) return;
+    const source = sourceRepos || (allRepos.length ? allRepos : FALLBACK_REPOS.map(normalizeRepo));
+    filterWrap.querySelectorAll('.filter-pill').forEach(pill => {
+      const key = pill.dataset.filter || 'all';
+      const labelFn = FILTER_LABELS[key];
+      const label = labelFn ? labelFn() : key;
+      const count = source.filter(r => matchesFilterFor(r, key)).length;
+      pill.innerHTML = `${escapeHTML(label)}<span class="filter-count">${count}</span>`;
+    });
+  }
+
+  function renderSyncStatus() {
+    if (!syncStatus || !syncStatusText) return;
+    syncStatus.classList.toggle('is-fallback', syncState === 'cache');
+    if (syncState === 'live') {
+      syncStatusText.textContent = t('repos.syncedLive');
+    } else if (syncState === 'cache') {
+      syncStatusText.textContent = t('repos.syncedCache');
+    } else {
+      syncStatusText.textContent = t('repos.syncing');
     }
   }
 
@@ -1413,17 +1399,19 @@ const githubExplorer = (function initGitHub() {
 
   function applyLoadedRepos(rawList, isLive) {
     allRepos = rawList.filter(r => !r.fork).map(normalizeRepo);
+    syncState = isLive ? 'live' : 'cache';
 
-    if (syncStatus && syncStatusText) {
-      syncStatus.classList.toggle('is-fallback', !isLive);
-      syncStatusText.textContent = isLive ? t('repos.syncedLive') : t('repos.syncedCache');
-    }
-
+    renderSyncStatus();
     updateSnapshotCard(allRepos);
+    updateFilterPillLabels(allRepos);
     renderRepos();
   }
 
   function fetchRepos() {
+    const fallbackSnapshot = FALLBACK_REPOS.map(normalizeRepo);
+    updateSnapshotCard(fallbackSnapshot);
+    updateFilterPillLabels(fallbackSnapshot);
+    renderSyncStatus();
     renderSkeletons();
 
     try {
@@ -1501,14 +1489,11 @@ const githubExplorer = (function initGitHub() {
 
   return {
     refresh: () => {
+      renderSyncStatus();
+      updateFilterPillLabels();
       if (allRepos.length) {
         updateSnapshotCard(allRepos);
         renderRepos();
-      }
-      if (syncStatusText && syncStatus) {
-        syncStatusText.textContent = syncStatus.classList.contains('is-fallback')
-          ? t('repos.syncedCache')
-          : t('repos.syncedLive');
       }
     }
   };
