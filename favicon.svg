@@ -1,10 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7c3aed" />
-      <stop offset="100%" stop-color="#06b6d4" />
+    <linearGradient id="adpGrad" x1="12%" y1="8%" x2="88%" y2="92%">
+      <stop offset="0%" stop-color="#ff6b3d" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b3d" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.35" />
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="9" fill="url(#grad)" />
-  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Space Grotesk', 'Inter', system-ui, sans-serif" font-size="18" font-weight="bold">A</text>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#0b0c0f" stroke="url(#borderGrad)" stroke-width="2" />
+  <path d="M32 15L17.5 48H24.6L27.7 40.4H36.3L39.4 48H46.5L32 15ZM29.8 35L32 28.4L34.2 35H29.8Z" fill="url(#adpGrad)" />
+  <circle cx="48" cy="17" r="3.5" fill="#10b981" />
 </svg>

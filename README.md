@@ -1,59 +1,30 @@
-# 🌌 ADP.io — Premium Developer Portfolio & Hub
+# ADP.io — Angelo Del Piano (`@bhaki18`)
 
-Benvenuto nella repository ufficiale di **[adp.io](https://bhaki18.github.io/adp.io)**, il portfolio professionale di **Angelo Del Piano (ADP)**, sviluppatore Web & Game di 17 anni residente in Italia.
-
-Questo progetto è stato creato da zero per offrire un'esperienza visiva premium, fluida e ricca di animazioni, incorporando l'integrazione in tempo reale delle repository di GitHub, un riproduttore di giochi integrato e una sezione contatti dinamica.
+Portfolio ufficiale e hub open-source di **Angelo Del Piano (`ADP`)**, sviluppatore autodidatta italiano, ospitato su **[bhaki18.github.io/adp.io](https://bhaki18.github.io/adp.io/)**.
 
 ---
 
-## ✨ Caratteristiche Principali
+## Design & Funzionalità
 
-- **🌀 Particle Network Canvas:** Un canvas interattivo in background che risponde in tempo reale al movimento e alla velocità del mouse creando connessioni tra nodi.
-- **✨ Cursor Glow & Magnetic Buttons:** Effetto bagliore del cursore personalizzato e pulsanti magnetici con micro-animazioni ad alta fedeltà.
-- **📊 Integrazione API GitHub:** Carica dinamicamente le repository pubbliche di GitHub, applicando stili e colori personalizzati in base al linguaggio di programmazione principale (con sistema di fallback offline per evitare rate-limiting).
-- **📄 Lettore di README Dinamico:** Integra `marked.js` e `DOMPurify` per scaricare, compilare in HTML e mostrare in un modal sicuro i file README.md delle repository direttamente dal sito.
-- **🎮 Playable Project Modal:** Consente di giocare alle demo e ai giochi Phaser/HTML5 caricandoli in sicurezza all'interno di un iframe interattivo completo di loader grafico.
-- **📬 Modulo Contatti EmailJS:** Invio di email in tempo reale direttamente dal client tramite le API di EmailJS, integrando validazione dei dati e protezione antispam honeypot.
-- **📱 Design Dark Glassmorphism:** Interfaccia responsive, moderna e accessibile basata su variabili CSS personalizzate e layout flessibili.
-
----
-
-## 🛠️ Tecnologie Utilizzate
-
-- **Core:** HTML5, Vanilla JavaScript (ES6)
-- **Stile:** CSS3 custom (Design system con variabili CSS, sfocature di sfondo, animazioni e transizioni cubiche)
-- **Librerie esterne:**
-  - [EmailJS SDK](https://www.emailjs.com/) per l'invio delle email dal client.
-  - [Marked.js](https://marked.js.org/) per il parsing dei file Markdown.
-  - [DOMPurify](https://github.com/cure53/DOMPurify) per la sanificazione del codice HTML generato dai README.
+- **2026 Editorial Studio & Bento Craft:** Interfaccia pulita con tema **Obsidian Dark** di default e toggle **Warm Alabaster Light**, tipografia `Bricolage Grotesque` + `Inter` + `JetBrains Mono` e icone SVG vettoriali.
+- **Live GitHub Snapshot:** Mostra in tempo reale avatar GitHub, conteggio repository pubbliche, linguaggi utilizzati, barra proporzionale del mix linguaggi e l'ultimo push cliccabile.
+- **Featured Spotlight Bento Grid:** Showcase dedicato ai progetti principali e pinnati (`AIman`, `fast-compress`, `CyberPunch 67`, `Manga & Anime Ecosystem`, `Phaser 3D Engine`, `phaserPlugInFx`, `GameBoy From Scratch`).
+- **Explorer Repository Live & Ricercabile:** Sincronizzazione con le API GitHub di [@bhaki18](https://github.com/bhaki18) (con cache in `sessionStorage` e snapshot di fallback completo delle 23 repository), filtri rapidi per linguaggio/categoria, ricerca istantanea e ordinamento.
+- **Lettore README & Demo Player Integrati:** Parsing sicuro di file `README.md` tramite `marked.js` + `DOMPurify` e player iframe integrato per demo web giocabili (`CyberPunch 67`, `Phaser 3D`, `neutraled`).
+- **Supporto Bilingue (`EN` / `IT`):** Cambio immediato tra inglese e italiano con persistenza in `localStorage`.
+- **Contatti Diretti & EmailJS:** Pulsante copia rapida email e form con validazione lato client e integrazione EmailJS.
 
 ---
 
-## 📁 Struttura della Directory
+## Stack Utilizzato
 
-```text
-adp.io/
-├── assets/                    # Asset multimediali, immagini e icone
-├── css/
-│   └── style.css              # Foglio di stile principale e design system
-├── html/
-│   ├── index.html             # Pagine statiche di supporto
-│   ├── cyberpunch67-readme.md # Cache locale del README per cyberPunch67
-│   └── phaser-3D-readme.md    # Cache locale del README per phaser-3D
-├── js/
-│   └── main.js                # Logica applicativa, interazioni e chiamate API
-├── index.html                 # Punto di ingresso dell'applicazione (Home Page)
-├── README.md                  # Questo file di documentazione
-└── googledd97ba5b4e405806.html# Verifica di Google Search Console
-```
+- **Core:** HTML5 semantico, CSS3 (Custom Properties, Grid Bento, responsive), Vanilla JavaScript (ES6)
+- **Librerie CDN:** `@emailjs/browser`, `marked`, `DOMPurify`
 
 ---
 
+## Contatti
 
-## 📬 Contatti e Info
-
-- **Sviluppatore:** Angelo Del Piano
-- **Età:** 17 anni
-- **Nazionalità:** Italiana 🇮🇹
-- **Email:** [angelodelpiano2317@gmail.com](mailto:angelodelpiano2317@gmail.com)
+- **Autore:** Angelo Del Piano
 - **GitHub:** [@bhaki18](https://github.com/bhaki18)
+- **Email:** [angelodelpiano2317@gmail.com](mailto:angelodelpiano2317@gmail.com)

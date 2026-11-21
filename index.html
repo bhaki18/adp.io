@@ -1,415 +1,930 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADP.io — Angelo Del Piano · Developer Portfolio</title>
-    <meta name="description"
-        content="Angelo Del Piano — 16 year old web &amp; game developer from Italy. I love creating projects for everyone. Let's build something together!">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADP.io — Angelo Del Piano · Systems, AI &amp; Game Developer</title>
+  <meta name="description"
+    content="Angelo Del Piano (@bhaki18) — 17-year-old Italian developer building Rust CLI tools, local AI agents, cross-platform apps, and Phaser games.">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:title" content="ADP.io — Angelo Del Piano · Developer Portfolio">
+  <meta property="og:description"
+    content="17-year-old self-taught Italian developer building systems in Rust &amp; C, offline AI tools, cross-platform apps, and multiplayer games.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bhaki18.github.io/adp.io/">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/251663748?v=4">
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
 
-    <!-- Markdown Parser & DOM Purifier for GitHub README Integration -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <!-- Markdown Parser & DOMPurify for live GitHub README inspection -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 </head>
 
 <body>
-    <!-- Animated background canvas -->
-    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- Subtle architectural backdrop -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+  </div>
 
-    <!-- Cursor glow effect -->
-    <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="wrapper">
 
-    <div class="wrapper">
-
-        <!-- ═══════════════════════════════════
+    <!-- ═══════════════════════════════════
          NAVIGATION
     ═══════════════════════════════════ -->
-        <header class="navbar" id="navbar">
-            <div class="container">
-                <nav class="nav-inner">
-                    <!-- Logo -->
-                    <a href="#" class="nav-logo">
-                        <div class="logo-mark">A</div>
-                        <span class="logo-text">ADP.io</span>
-                    </a>
+    <header class="navbar" id="navbar">
+      <div class="container">
+        <div class="nav-shell">
+          <nav class="nav-inner" aria-label="Main navigation">
+            <a href="#home" class="nav-logo">
+              <span class="logo-mark" aria-hidden="true">
+                <svg viewBox="0 0 32 32" width="24" height="24" fill="none">
+                  <rect width="32" height="32" rx="8" fill="url(#navLogoGrad)" />
+                  <path d="M16 7.5L9.2 24H12.7L14.1 20.4H17.9L19.3 24H22.8L16 7.5ZM14.9 17.5L16 14.3L17.1 17.5H14.9Z" fill="#0b0c0f" />
+                  <circle cx="24" cy="8.5" r="2" fill="#10b981" />
+                  <defs>
+                    <linearGradient id="navLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#ff6b3d" />
+                      <stop offset="1" stop-color="#f59e0b" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              <span class="logo-text">adp<span>.io</span></span>
+            </a>
 
-                    <!-- Desktop Links -->
-                    <ul class="nav-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact" class="nav-cta">Contact Us</a></li>
-                    </ul>
+            <ul class="nav-links">
+              <li><a href="#featured" data-i18n="nav.featured">Featured</a></li>
+              <li><a href="#projects" data-i18n="nav.repos">Repositories</a></li>
+              <li><a href="#craft" data-i18n="nav.craft">Craft</a></li>
+              <li><a href="#about" data-i18n="nav.about">About</a></li>
+              <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+            </ul>
 
-                    <!-- Hamburger -->
-                    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </nav>
+            <div class="nav-controls">
+              <button type="button" class="ctrl-btn lang-btn" id="lang-toggle" aria-label="Switch language">
+                <span class="lang-code">EN</span>
+              </button>
 
-                <!-- Mobile Nav -->
-                <nav class="nav-mobile" id="mobile-nav" aria-label="Mobile navigation">
-                    <a href="#features">Features</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact Us</a>
-                </nav>
+              <button type="button" class="ctrl-btn theme-btn" id="theme-toggle" aria-label="Switch color theme">
+                <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              </button>
+
+              <a href="https://github.com/bhaki18" target="_blank" rel="noopener noreferrer" class="ctrl-btn github-btn" aria-label="GitHub profile @bhaki18">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+                  <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.11.79-.25.79-.55v-2.16c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.77.12 3.06.74.81 1.18 1.84 1.18 3.1 0 4.41-2.69 5.39-5.26 5.67.42.36.79 1.07.79 2.15v3.19c0 .31.21.67.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+                </svg>
+              </a>
+
+              <button type="button" class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
             </div>
-        </header>
+          </nav>
 
-        <!-- ═══════════════════════════════════
-         HERO
-    ═══════════════════════════════════ -->
-        <section class="hero" id="home">
-            <div class="container">
-                <div class="hero-content">
+          <nav class="nav-mobile" id="mobile-nav" aria-label="Mobile navigation">
+            <a href="#featured" data-i18n="nav.featured">Featured</a>
+            <a href="#projects" data-i18n="nav.repos">Repositories</a>
+            <a href="#craft" data-i18n="nav.craft">Craft</a>
+            <a href="#about" data-i18n="nav.about">About</a>
+            <a href="#contact" data-i18n="nav.contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </header>
 
-                    <!-- Badge -->
-                    <div class="badge">
-                        <span class="badge-dot"></span>
-                        Open to ideas &amp; requests — let's create something!
-                    </div>
+    <main>
+      <!-- ═══════════════════════════════════
+           HERO
+      ═══════════════════════════════════ -->
+      <section class="hero" id="home">
+        <div class="container">
+          <div class="hero-layout">
 
-                    <!-- Headline -->
-                    <h1 class="hero-headline">
-                        <span class="line-1">Hi, I'm Angelo.</span>
-                        <span class="line-2 typed-text"
-                            data-words="Web Developer|Game Developer|Creative Coder|Builder of Things">Web
-                            Developer</span>
-                    </h1>
+            <!-- Left Editorial Column -->
+            <div class="hero-copy">
+              <div class="status-pill">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span data-i18n="hero.badge">Open to ideas &amp; collaborations · Italy</span>
+              </div>
 
-                    <!-- Subheadline -->
-                    <p class="hero-sub">
-                        I'm a <span class="dynamic-age">16</span> year old developer from Italy who loves creating projects for everything and everyone.
-                        Got an idea or a request? Let's make it real.
-                    </p>
+              <h1 class="hero-headline">
+                <span class="hero-greeting" data-i18n="hero.greeting">Hi, I'm Angelo.</span>
+                <span class="hero-role-wrap">
+                  <span class="hero-role" id="role-rotator">Systems &amp; Rust Builder</span>
+                </span>
+              </h1>
 
-                    <!-- CTA Buttons -->
-                    <div class="hero-cta">
-                        <a href="#projects" class="btn btn-primary btn-lg">
-                            Explore Projects
-                            <span class="btn-arrow">→</span>
-                        </a>
-                        <a href="#contact" class="btn btn-ghost btn-lg">
-                            Get in Touch
-                        </a>
-                    </div>
+              <p class="hero-sub">
+                <span data-i18n="hero.subPrefix">I'm a</span>
+                <span class="dynamic-age">17</span><span data-i18n="hero.subBody">-year-old self-taught developer from Italy. I build fast CLI tools in Rust and C, offline AI runners, cross-platform apps, and Phaser games — all in the open.</span>
+              </p>
 
-                    <!-- Stats -->
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-value" data-count="16" data-suffix="" id="stat-age">16</span>
-                            <span class="stat-label">Years Old</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" data-count="3" data-suffix="+" id="stat-projects">3+</span>
-                            <span class="stat-label">Projects</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" data-count="100" data-suffix="%" id="stat-passion">100%</span>
-                            <span class="stat-label">Passion</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" data-count="2024" data-suffix="" id="stat-since">2024</span>
-                            <span class="stat-label">Started</span>
-                        </div>
-                    </div>
-                </div>
+              <div class="hero-cta">
+                <a href="#featured" class="btn btn-primary btn-lg">
+                  <span data-i18n="hero.ctaExplore">Explore Projects</span>
+                  <span class="btn-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href="https://github.com/bhaki18" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.11.79-.25.79-.55v-2.16c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.77.12 3.06.74.81 1.18 1.84 1.18 3.1 0 4.41-2.69 5.39-5.26 5.67.42.36.79 1.07.79 2.15v3.19c0 .31.21.67.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+                  </svg>
+                  <span>@bhaki18</span>
+                </a>
+                <a href="#contact" class="btn btn-ghost btn-lg" data-i18n="hero.ctaContact">
+                  Get in Touch
+                </a>
+              </div>
             </div>
 
-            <!-- Scroll Indicator -->
-            <div class="scroll-indicator" aria-hidden="true">
-                <div class="scroll-mouse">
-                    <div class="scroll-wheel"></div>
+            <!-- Right Live Developer Snapshot Card -->
+            <aside class="hero-card bento-card" aria-label="GitHub profile summary">
+              <div class="snapshot-header">
+                <div class="snapshot-identity">
+                  <div class="snapshot-avatar-wrap">
+                    <img src="https://avatars.githubusercontent.com/u/251663748?v=4"
+                      alt="Angelo Del Piano GitHub avatar"
+                      class="snapshot-avatar"
+                      width="52"
+                      height="52"
+                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="snapshot-avatar-fallback" aria-hidden="true">ADP</div>
+                  </div>
+                  <div>
+                    <div class="snapshot-name">Angelo Del Piano</div>
+                    <div class="snapshot-handle">@bhaki18 · <span data-i18n="hero.italy">Italy</span></div>
+                  </div>
                 </div>
-                <span>Scroll</span>
+                <span class="live-chip">
+                  <span class="live-dot" aria-hidden="true"></span>
+                  <span data-i18n="hero.activeGithub">GitHub Synced</span>
+                </span>
+              </div>
+
+              <div class="snapshot-metrics">
+                <div class="metric-tile">
+                  <span class="metric-value" id="stat-repos" data-count="23">23</span>
+                  <span class="metric-label" data-i18n="stats.repos">Public Repos</span>
+                </div>
+                <div class="metric-tile">
+                  <span class="metric-value" id="stat-langs" data-count="9" data-suffix="+">9+</span>
+                  <span class="metric-label" data-i18n="stats.langs">Languages</span>
+                </div>
+                <div class="metric-tile">
+                  <span class="metric-value" id="stat-age" data-count="17">17</span>
+                  <span class="metric-label" data-i18n="stats.age">Years Old</span>
+                </div>
+                <div class="metric-tile">
+                  <span class="metric-value" id="stat-since" data-count="2024">2024</span>
+                  <span class="metric-label" data-i18n="stats.since">Coding Since</span>
+                </div>
+              </div>
+
+              <div class="snapshot-langs">
+                <div class="snapshot-section-head">
+                  <span data-i18n="snapshot.langMix">Language Mix</span>
+                  <span class="mono-muted" data-i18n="snapshot.acrossRepos">across public repos</span>
+                </div>
+                <div class="lang-bar" id="lang-bar" role="img" aria-label="Programming language distribution"></div>
+                <div class="lang-legend" id="lang-legend"></div>
+              </div>
+
+              <button type="button" class="latest-push-strip" id="latest-push" data-readme-repo="manga-gui-mobile" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/manga-gui-mobile">
+                <span class="push-prefix">
+                  <span class="prompt-chevron" aria-hidden="true">$</span>
+                  <span data-i18n="snapshot.latestPush">latest push</span>
+                </span>
+                <span class="push-repo" id="latest-push-name">manga-gui-mobile</span>
+                <span class="push-meta" id="latest-push-meta">Kotlin · Nov 21</span>
+                <span class="push-arrow" aria-hidden="true">↗</span>
+              </button>
+            </aside>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════
+           FEATURED SPOTLIGHT BENTO
+      ═══════════════════════════════════ -->
+      <section id="featured" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="featured.eyebrow">Selected Work</div>
+            <h2 class="section-title reveal" data-i18n="featured.title">Featured projects.</h2>
+            <p class="section-desc reveal" data-i18n="featured.desc">
+              Pinned builds and flagship experiments spanning Rust systems tools, offline AI agents, cross-platform anime/manga apps, and browser games.
+            </p>
+          </div>
+
+          <div class="bento-grid">
+
+            <!-- 1. AIman (span-7) -->
+            <article class="bento-card bento-coral span-7 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill pill-accent">Pinned</span>
+                  <span class="pill">Local AI · Rust</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#dea584;"></span>Rust</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>AIman</h3>
+                <p data-i18n="proj.aiman">
+                  Lightweight Rust CLI manager &amp; autonomous agent runner for local GGUF AI models. Download models directly from Hugging Face, run an interactive TUI, and switch seamlessly between llama.cpp, ik_llama.cpp, and mistralrs.
+                </p>
+
+                <div class="terminal-preview" aria-hidden="true">
+                  <div class="terminal-dots"><span></span><span></span><span></span></div>
+                  <code><span class="t-accent">$</span> aiman <span class="t-muted">→ pick GGUF · Q4_K_M · agentic shell mode [approve]</span></code>
+                </div>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">Rust</span>
+                  <span class="tech-chip">GGUF</span>
+                  <span class="tech-chip">llama.cpp</span>
+                  <span class="tech-chip">Agentic CLI</span>
+                </div>
+                <div class="bento-actions">
+                  <button type="button" class="btn-card" data-readme-repo="AIman" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/AIman" data-i18n="btn.readme">
+                    Read README
+                  </button>
+                  <a href="https://github.com/bhaki18/AIman" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-ghost">
+                    GitHub ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- 2. fast-compress (span-5) -->
+            <article class="bento-card bento-amber span-5 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill pill-amber">Systems</span>
+                  <span class="pill">MIT</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#dea584;"></span>Rust</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>fast-compress</h3>
+                <p data-i18n="proj.fastCompress">
+                  Lossless CLI file and directory archiver written in Rust for packing arbitrary binary and text trees into compact .cmpr archives with LZ77, PackBits RLE, CRC-32 checksums, and path-traversal safety.
+                </p>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">Rust</span>
+                  <span class="tech-chip">LZ77</span>
+                  <span class="tech-chip">RLE</span>
+                  <span class="tech-chip">CRC-32</span>
+                </div>
+                <div class="bento-actions">
+                  <button type="button" class="btn-card" data-readme-repo="fast-compress" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/fast-compress" data-i18n="btn.readme">
+                    Read README
+                  </button>
+                  <a href="https://github.com/bhaki18/fast-compress" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-ghost">
+                    GitHub ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- 3. CyberPunch 67 (span-5) -->
+            <article class="bento-card bento-rose span-5 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill pill-accent">Pinned</span>
+                  <span class="pill pill-emerald">Playable Demo</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#f1e05a;"></span>JavaScript</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>CyberPunch 67</h3>
+                <p data-i18n="proj.cyberpunch">
+                  Futuristic 2D cyberpunk fighting game in Phaser 3 with Socket.io ranked multiplayer, 100-NPC arcade survival, hitstop combat feedback, and full keyboard + gamepad support.
+                </p>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">Phaser 3</span>
+                  <span class="tech-chip">Socket.io</span>
+                  <span class="tech-chip">Node.js</span>
+                  <span class="tech-chip">MongoDB</span>
+                </div>
+                <div class="bento-actions">
+                  <button type="button" class="btn-card btn-card-primary" data-play-url="https://mellow-paprenjak-b3d7d3.netlify.app" data-play-title="CyberPunch 67">
+                    <span aria-hidden="true">▶</span>
+                    <span data-i18n="btn.play">Play Demo</span>
+                  </button>
+                  <button type="button" class="btn-card" data-readme-repo="cyberPunch67" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/cyberPunch67">
+                    README
+                  </button>
+                  <a href="https://github.com/bhaki18/cyberPunch67" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-ghost">
+                    GitHub ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- 4. Manga & Anime Ecosystem (span-7) -->
+            <article class="bento-card bento-teal span-7 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill pill-accent">Pinned</span>
+                  <span class="pill pill-teal">Cross-Platform Suite</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#10b981;"></span>Multi-Target</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>Manga &amp; Anime Ecosystem</h3>
+                <p data-i18n="proj.manga">
+                  A 100% free, ad-free open-source suite for reading manga and streaming anime across every device: desktop client in C# &amp; Avalonia UI (Windows &amp; Linux), native Android app in Kotlin &amp; Jetpack Compose, and ultra-fast Linux CLI with /dev/shm RAM caching.
+                </p>
+
+                <div class="platform-strip">
+                  <div class="platform-item">
+                    <span class="platform-name">manga-gui</span>
+                    <span class="platform-tech">C# · Avalonia · Win/Linux</span>
+                  </div>
+                  <div class="platform-item">
+                    <span class="platform-name">manga-gui-mobile</span>
+                    <span class="platform-tech">Kotlin · Jetpack Compose</span>
+                  </div>
+                  <div class="platform-item">
+                    <span class="platform-name">manga-cli</span>
+                    <span class="platform-tech">Node.js · mpv · Arch Repo</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">C# / Avalonia</span>
+                  <span class="tech-chip">Kotlin</span>
+                  <span class="tech-chip">Node.js</span>
+                  <span class="tech-chip">GPL-3.0 / MIT</span>
+                </div>
+                <div class="bento-actions">
+                  <a href="https://bhaki18.github.io/manga-ui-site/" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-primary" data-i18n="btn.visitSite">
+                    Download Hub ↗
+                  </a>
+                  <button type="button" class="btn-card" data-readme-repo="manga-cli" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/manga-cli" data-i18n="btn.cliReadme">
+                    CLI README
+                  </button>
+                  <a href="https://github.com/bhaki18/manga-gui" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-ghost">
+                    GitHub ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- 5. Phaser 3D Engine (span-4) -->
+            <article class="bento-card bento-indigo span-4 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill pill-emerald">Playable Demo</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#f1e05a;"></span>JavaScript</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>Phaser 3D Engine</h3>
+                <p data-i18n="proj.phaser3d">
+                  Native 3D software rasterizer and rigid-body physics engine built from scratch for Phaser 3 — Z-buffer, backface culling, UV mapping, and LOD without WebGL.
+                </p>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">3D Rasterizer</span>
+                  <span class="tech-chip">Z-Buffer</span>
+                  <span class="tech-chip">Physics</span>
+                </div>
+                <div class="bento-actions">
+                  <button type="button" class="btn-card btn-card-primary" data-play-url="https://bhaki18.github.io/phaser-3D/" data-play-title="Phaser 3D Engine">
+                    <span aria-hidden="true">▶</span>
+                    <span data-i18n="btn.play">Play Demo</span>
+                  </button>
+                  <button type="button" class="btn-card" data-readme-repo="phaser-3D" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/phaser-3D">
+                    README
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- 6. phaserPlugInFx (span-4) -->
+            <article class="bento-card bento-amber span-4 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill pill-accent">Pinned</span>
+                  <span class="pill">npm Library</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#f1e05a;"></span>JavaScript</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>phaserPlugInFx</h3>
+                <p data-i18n="proj.phaserfx">
+                  Modular, extensible visual FX library for Phaser 3 adding dynamic GameObject micro-interactions, scene transitions, and ready-to-use effect prefabs.
+                </p>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">Phaser 3</span>
+                  <span class="tech-chip">npm</span>
+                  <span class="tech-chip">FX Pipeline</span>
+                </div>
+                <div class="bento-actions">
+                  <button type="button" class="btn-card" data-readme-repo="phaserPlugInFx" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/phaserPlugInFx">
+                    README
+                  </button>
+                  <a href="https://github.com/bhaki18/phaserPlugInFx" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-ghost">
+                    GitHub ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- 7. GameBoy From Scratch (span-4) -->
+            <article class="bento-card bento-emerald span-4 reveal">
+              <div class="bento-top">
+                <div class="bento-badges">
+                  <span class="pill">Low-Level · C</span>
+                  <span class="pill">MIT</span>
+                </div>
+                <span class="lang-pill"><span class="lang-dot" style="--dot:#555555;"></span>C</span>
+              </div>
+
+              <div class="bento-body">
+                <h3>GameBoy From Scratch</h3>
+                <p data-i18n="proj.gameboy">
+                  Terminal retro game console launcher written in C with ncurses, bundling custom ASCII arcade games including Pacminal (Pac-Man) and Terton (Snake).
+                </p>
+              </div>
+
+              <div class="bento-footer">
+                <div class="chip-row">
+                  <span class="tech-chip">C</span>
+                  <span class="tech-chip">ncurses</span>
+                  <span class="tech-chip">Makefile</span>
+                </div>
+                <div class="bento-actions">
+                  <button type="button" class="btn-card" data-readme-repo="gameboy-from-scratch" data-readme-branch="main" data-readme-url="https://github.com/bhaki18/gameboy-from-scratch">
+                    README
+                  </button>
+                  <a href="https://github.com/bhaki18/gameboy-from-scratch" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-ghost">
+                    GitHub ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════
+           ALL GITHUB REPOSITORIES
+      ═══════════════════════════════════ -->
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section-header section-header-row">
+            <div>
+              <div class="section-eyebrow" data-i18n="repos.eyebrow">Open Source</div>
+              <h2 class="section-title reveal" data-i18n="repos.title">All repositories.</h2>
+              <p class="section-desc reveal" data-i18n="repos.desc">
+                Synced directly with github.com/bhaki18 — filter by stack, search by keyword, or inspect any project's README inline.
+              </p>
             </div>
-        </section>
-
-        <!-- ═══════════════════════════════════
-         FEATURES
-    ═══════════════════════════════════ -->
-        <section id="features">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-eyebrow">What We Do</div>
-                    <h2 class="section-title reveal">Crafted with <span>precision</span>,<br>driven by passion.</h2>
-                    <p class="section-desc reveal reveal-delay-1">Every line of code, every pixel, every frame — built
-                        to exceed expectations and create memories.</p>
-                </div>
-
-                <div class="features-grid">
-
-                    <div class="glass-card feature-card reveal reveal-delay-1">
-                        <div class="feature-icon fi-purple">🎮</div>
-                        <h3>Game Development</h3>
-                        <p>From concept to launch, we craft engaging games with Phaser, WebGL, and custom engines —
-                            delivering fun, polished experiences across platforms.</p>
-                    </div>
-
-                    <div class="glass-card feature-card reveal reveal-delay-2">
-                        <div class="feature-icon fi-cyan">🌐</div>
-                        <h3>Web Experiences</h3>
-                        <p>We design and develop dynamic, responsive websites with cutting-edge CSS, rich animations,
-                            and seamless JavaScript interactions that wow users.</p>
-                    </div>
-
-                    <div class="glass-card feature-card reveal reveal-delay-3">
-                        <div class="feature-icon fi-pink">🎨</div>
-                        <h3>UI / UX Design</h3>
-                        <p>Our designers craft intuitive interfaces with a premium look — blending glassmorphism,
-                            micro-animations, and accessibility-first principles.</p>
-                    </div>
-
-                    <div class="glass-card feature-card reveal reveal-delay-1">
-                        <div class="feature-icon fi-green">🔊</div>
-                        <h3>Sound Design</h3>
-                        <p>Immersion starts with audio. Our sound team composes original scores, ambient soundscapes,
-                            and crisp SFX that elevate every project.</p>
-                    </div>
-
-                    <div class="glass-card feature-card reveal reveal-delay-2">
-                        <div class="feature-icon fi-amber">✏️</div>
-                        <h3>Concept & Narrative</h3>
-                        <p>Great products tell great stories. We develop rich lore, engaging game writing, and
-                            compelling editorial content that keeps audiences hooked.</p>
-                    </div>
-
-                    <div class="glass-card feature-card reveal reveal-delay-3">
-                        <div class="feature-icon fi-blue">🚀</div>
-                        <h3>Publishing & GitHub Pages</h3>
-                        <p>We handle the full deployment pipeline — from optimizing builds to shipping on GitHub Pages
-                            and beyond, so your work reaches the world.</p>
-                    </div>
-
-                </div>
+            <div class="sync-status" id="sync-status">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span id="sync-status-text" data-i18n="repos.syncing">Syncing with GitHub…</span>
             </div>
-        </section>
+          </div>
 
-        <!-- ═══════════════════════════════════
-         PROJECTS
-    ═══════════════════════════════════ -->
-        <section id="projects">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-eyebrow">Our Work</div>
-                    <h2 class="section-title reveal">Projects that <span>push limits</span>.</h2>
-                    <p class="section-desc reveal reveal-delay-1">A live-syncing showcase of my repositories, games, and code experiments straight from GitHub.</p>
-                </div>
-
-                <!-- GitHub Search / Filter Controls -->
-                <div class="projects-filter-container show-filter reveal reveal-delay-1" id="github-filter-wrap">
-                    <div class="search-box">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" id="repo-search" placeholder="Search repositories by name, tag, or description...">
-                        <button id="clear-search" class="clear-btn" aria-label="Clear search">✕</button>
-                    </div>
-                </div>
-
-                <!-- GitHub Projects Grid -->
-                <div class="projects-grid" id="github-projects">
-                    <!-- Dynamic Repository Cards loaded via main.js -->
-                </div>
+          <!-- Controls -->
+          <div class="repos-toolbar reveal">
+            <div class="filter-pills" id="repo-filters" role="group" aria-label="Filter repositories by category">
+              <button type="button" class="filter-pill active" data-filter="all">All</button>
+              <button type="button" class="filter-pill" data-filter="pinned">Pinned</button>
+              <button type="button" class="filter-pill" data-filter="rust">Rust</button>
+              <button type="button" class="filter-pill" data-filter="javascript">JavaScript</button>
+              <button type="button" class="filter-pill" data-filter="c">C / C++</button>
+              <button type="button" class="filter-pill" data-filter="python">Python</button>
+              <button type="button" class="filter-pill" data-filter="kotlin-ts">Kotlin &amp; TS</button>
+              <button type="button" class="filter-pill" data-filter="live">Playable &amp; Live</button>
             </div>
-        </section>
 
+            <div class="repos-inputs">
+              <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                <input type="text" id="repo-search" data-i18n-placeholder="repos.searchPlaceholder" placeholder="Search repos, tech, or topics..." aria-label="Search repositories">
+                <button type="button" id="clear-search" class="clear-btn" aria-label="Clear search">✕</button>
+              </div>
 
-        <!-- ═══════════════════════════════════
-         ABOUT
-    ═══════════════════════════════════ -->
-        <section id="about">
-            <div class="container">
-                <div class="about-layout">
-
-                    <!-- Visual side -->
-                    <div class="about-visual reveal">
-                        <div class="glass-card about-card-main">
-                            <div class="about-avatar-ring">👨‍💻</div>
-                            <div class="about-name">Angelo Del Piano</div>
-                            <div class="about-role">Web Developer · Game Developer · Italy 🇮🇹</div>
-                            <p class="about-bio">I'm <span class="dynamic-age">16</span> years old and I love creating projects for everything and
-                                everyone. Whether it's a game, a website, or something brand new — I'm always building.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Text side -->
-                    <div class="about-text">
-                        <div class="section-eyebrow">About Us</div>
-                        <h2 class="reveal">I'm a <em>developer</em> who ships.</h2>
-
-                        <p class="reveal reveal-delay-1">
-                            My name is Angelo Del Piano — ADP for short. I'm a <span class="dynamic-age">16</span> year old self-taught developer
-                            from Italy with a passion for web and game development. I've been building things since
-                            I was a kid and I'm not stopping anytime soon.
-                        </p>
-                        <p class="reveal reveal-delay-2">
-                            I love creating new projects for everything and everyone. Got an idea? A crazy request?
-                            Something you've always wanted to see built? Reach out — I'm always up for a challenge.
-                        </p>
-
-                        <div class="about-skills">
-                            <span class="skill-tag">Phaser 3</span>
-                            <span class="skill-tag">Three.js</span>
-                            <span class="skill-tag">WebGL</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">HTML5</span>
-                            <span class="skill-tag">CSS3</span>
-                            <span class="skill-tag">Game Design</span>
-                            <span class="skill-tag">Pixel Art</span>
-                            <span class="skill-tag">Sound Design</span>
-                            <span class="skill-tag">Narrative</span>
-                            <span class="skill-tag">GitHub Pages</span>
-                            <span class="skill-tag">Vite</span>
-                        </div>
-                    </div>
-
-                </div>
+              <label class="sort-wrap">
+                <span class="sr-only">Sort repositories</span>
+                <select id="repo-sort" aria-label="Sort repositories">
+                  <option value="updated" data-i18n="sort.updated">Recently Updated</option>
+                  <option value="pinned" data-i18n="sort.pinned">Pinned First</option>
+                  <option value="name" data-i18n="sort.name">Name A–Z</option>
+                </select>
+              </label>
             </div>
-        </section>
+          </div>
 
-        <!-- ═══════════════════════════════════
-         CONTACT
-    ═══════════════════════════════════ -->
-        <section id="contact">
-            <div class="container">
-                <div class="section-header" style="text-align:center;">
-                    <div class="section-eyebrow" style="justify-content:center;">Contact</div>
-                    <h2 class="section-title reveal">Let's build something <span>great</span>.</h2>
-                </div>
+          <div class="repos-count-bar">
+            <span id="repo-count" class="mono-muted">Loading repositories…</span>
+          </div>
 
-                <div class="contact-wrapper">
-                    <div class="glass-card contact-card reveal">
-                        <div class="contact-icon-wrap">📬</div>
-                        <h3>Get in Touch</h3>
-                        <p>Have a project idea, a collab proposal, or just want to say hi? You can also reach me
-                            directly at <a href="mailto:angelodelpiano2317@gmail.com"
-                                style="color:var(--clr-purple-l);text-decoration:none;font-weight:600;">angelodelpiano2317@gmail.com</a>
-                        </p>
+          <div class="repos-grid" id="github-projects">
+            <!-- Populated dynamically by js/main.js -->
+          </div>
 
-                        <form class="contact-form" id="contact-form" novalidate>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="contact-name">Name</label>
-                                    <input type="text" id="contact-name" name="name" placeholder="Your name" required
-                                        autocomplete="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact-email">Email</label>
-                                    <input type="email" id="contact-email" name="email" placeholder="your@email.com"
-                                        required autocomplete="email">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-subject">Subject</label>
-                                <input type="text" id="contact-subject" name="subject" placeholder="What's it about?">
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-msg">Message</label>
-                                <textarea id="contact-msg" name="message" placeholder="Tell us about your project..."
-                                    required></textarea>
-                            </div>
-                            
-                            <!-- Simple Spam Prevention (Honeypot) -->
-                            <div style="display:none;">
-                                <label>Leave this field empty</label>
-                                <input type="text" name="honeypot" autocomplete="off">
-                            </div>
+          <div class="repos-expand-wrap d-none" id="repo-expand-wrap">
+            <button type="button" class="btn btn-secondary" id="repo-expand-btn">
+              Show all repositories
+            </button>
+          </div>
+        </div>
+      </section>
 
-                            <button type="submit" class="btn btn-primary btn-lg form-submit">
-                                Send Message
-                                <span class="btn-arrow">→</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+      <!-- ═══════════════════════════════════
+           CRAFT / WHAT I BUILD
+      ═══════════════════════════════════ -->
+      <section id="craft" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="craft.eyebrow">What I Build</div>
+            <h2 class="section-title reveal" data-i18n="craft.title">Across the stack.</h2>
+            <p class="section-desc reveal" data-i18n="craft.desc">
+              From memory-safe CLI binaries and offline AI runners to 3D rasterizers and cross-platform desktop/mobile apps.
+            </p>
+          </div>
+
+          <div class="craft-grid">
+
+            <article class="craft-card reveal">
+              <div class="craft-icon craft-icon-coral" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 17 10 11 4 5" />
+                  <line x1="12" y1="19" x2="20" y2="19" />
+                </svg>
+              </div>
+              <h3 data-i18n="craft.c1Title">Systems &amp; CLI Engineering</h3>
+              <p data-i18n="craft.c1Desc">
+                Fast, zero-bloat terminal tools in Rust and C — lossless LZ77/RLE compression, ncurses arcade suites, Linux printer utilities, and custom Arch Linux package repos.
+              </p>
+              <div class="craft-tags">
+                <span>Rust</span>
+                <span>C</span>
+                <span>Linux</span>
+                <span>Shell</span>
+              </div>
+            </article>
+
+            <article class="craft-card reveal">
+              <div class="craft-icon craft-icon-amber" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                  <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+                </svg>
+              </div>
+              <h3 data-i18n="craft.c2Title">Local AI &amp; Autonomous Agents</h3>
+              <p data-i18n="craft.c2Desc">
+                Privacy-first local inference tools built for running GGUF LLMs offline — from AIman's agentic shell runner to PyTorch intent nets, Vosk STT, and MediaPipe gesture tracking.
+              </p>
+              <div class="craft-tags">
+                <span>GGUF / llama.cpp</span>
+                <span>Python</span>
+                <span>PyTorch</span>
+                <span>Vosk</span>
+              </div>
+            </article>
+
+            <article class="craft-card reveal">
+              <div class="craft-icon craft-icon-teal" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <h3 data-i18n="craft.c3Title">Games &amp; 3D Graphics</h3>
+              <p data-i18n="craft.c3Desc">
+                Real-time Socket.io multiplayer fighting games in Phaser 3, custom FX packages on npm, and a scratch-built 3D software rasterizer with Z-buffer and rigid-body physics.
+              </p>
+              <div class="craft-tags">
+                <span>Phaser 3</span>
+                <span>Socket.io</span>
+                <span>3D Math</span>
+                <span>Canvas 2D</span>
+              </div>
+            </article>
+
+            <article class="craft-card reveal">
+              <div class="craft-icon craft-icon-indigo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <path d="M8 21h8M12 17v4" />
+                </svg>
+              </div>
+              <h3 data-i18n="craft.c4Title">Cross-Platform &amp; Web Apps</h3>
+              <p data-i18n="craft.c4Desc">
+                Cohesive user-focused software across every screen — Avalonia UI desktop clients in C#, native Android apps in Kotlin &amp; Jetpack Compose, and clean web utilities.
+              </p>
+              <div class="craft-tags">
+                <span>Kotlin</span>
+                <span>C# / Avalonia</span>
+                <span>TypeScript</span>
+                <span>HTML / CSS</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════
+           ABOUT & TECH STACK
+      ═══════════════════════════════════ -->
+      <section id="about" class="section">
+        <div class="container">
+          <div class="about-layout">
+
+            <div class="about-copy reveal">
+              <div class="section-eyebrow" data-i18n="about.eyebrow">About Me</div>
+              <h2 class="section-title" data-i18n="about.title">Built from curiosity.</h2>
+
+              <p>
+                <span data-i18n="about.p1Start">I'm Angelo Del Piano (ADP), a</span>
+                <span class="dynamic-age">17</span><span data-i18n="about.p1End">-year-old self-taught developer from Italy. What started as building browser games and interactive web pages quickly expanded into writing low-level C programs, Rust systems CLIs, local AI agents, and cross-platform desktop and mobile suites.</span>
+              </p>
+
+              <p data-i18n="about.p2">
+                I love understanding how things work underneath the abstraction — whether that's projecting 3D triangles onto a 2D canvas without WebGL, packing files with LZ77 and CRC-32 checksums, caching manga pages directly in /dev/shm, or wiring an Arduino LED trigger.
+              </p>
+
+              <div class="about-links">
+                <a href="https://github.com/bhaki18" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                  github.com/bhaki18 ↗
+                </a>
+                <a href="mailto:angelodelpiano2317@gmail.com" class="btn btn-ghost">
+                  angelodelpiano2317@gmail.com
+                </a>
+              </div>
             </div>
-        </section>
 
-        <!-- ═══════════════════════════════════
+            <div class="stack-matrix reveal">
+              <div class="stack-group">
+                <div class="stack-group-title" data-i18n="stack.systems">Systems &amp; Embedded</div>
+                <div class="chip-row">
+                  <span class="tech-chip">Rust</span>
+                  <span class="tech-chip">C</span>
+                  <span class="tech-chip">C++</span>
+                  <span class="tech-chip">Linux</span>
+                  <span class="tech-chip">Shell / Bash</span>
+                  <span class="tech-chip">ncurses</span>
+                  <span class="tech-chip">Arduino</span>
+                </div>
+              </div>
+
+              <div class="stack-group">
+                <div class="stack-group-title" data-i18n="stack.apps">Web &amp; Native Apps</div>
+                <div class="chip-row">
+                  <span class="tech-chip">JavaScript</span>
+                  <span class="tech-chip">TypeScript</span>
+                  <span class="tech-chip">Kotlin</span>
+                  <span class="tech-chip">Jetpack Compose</span>
+                  <span class="tech-chip">C#</span>
+                  <span class="tech-chip">Avalonia UI</span>
+                  <span class="tech-chip">Node.js</span>
+                  <span class="tech-chip">HTML5 / CSS3</span>
+                </div>
+              </div>
+
+              <div class="stack-group">
+                <div class="stack-group-title" data-i18n="stack.ai">AI &amp; Machine Learning</div>
+                <div class="chip-row">
+                  <span class="tech-chip">Python</span>
+                  <span class="tech-chip">PyTorch</span>
+                  <span class="tech-chip">llama.cpp / GGUF</span>
+                  <span class="tech-chip">MediaPipe</span>
+                  <span class="tech-chip">Vosk STT</span>
+                  <span class="tech-chip">OpenCV</span>
+                </div>
+              </div>
+
+              <div class="stack-group">
+                <div class="stack-group-title" data-i18n="stack.games">Games &amp; Tooling</div>
+                <div class="chip-row">
+                  <span class="tech-chip">Phaser 3</span>
+                  <span class="tech-chip">Socket.io</span>
+                  <span class="tech-chip">3D Rasterization</span>
+                  <span class="tech-chip">MongoDB</span>
+                  <span class="tech-chip">Docker</span>
+                  <span class="tech-chip">Git &amp; npm</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════
+           CONTACT
+      ═══════════════════════════════════ -->
+      <section id="contact" class="section">
+        <div class="container">
+          <div class="contact-studio reveal">
+
+            <div class="contact-info">
+              <div class="section-eyebrow" data-i18n="contact.eyebrow">Contact</div>
+              <h2 class="section-title" data-i18n="contact.title">Let's build something together.</h2>
+              <p class="contact-lead" data-i18n="contact.lead">
+                Have a project idea, collaboration proposal, or feedback on one of my repositories? Send a message directly or reach me via email and GitHub.
+              </p>
+
+              <div class="contact-channels">
+                <div class="channel-card">
+                  <div>
+                    <div class="channel-label">Email</div>
+                    <a href="mailto:angelodelpiano2317@gmail.com" class="channel-value">angelodelpiano2317@gmail.com</a>
+                  </div>
+                  <button type="button" class="copy-btn" id="copy-email-btn" data-email="angelodelpiano2317@gmail.com" aria-label="Copy email address" data-i18n="contact.copy">
+                    Copy
+                  </button>
+                </div>
+
+                <a href="https://github.com/bhaki18" target="_blank" rel="noopener noreferrer" class="channel-card channel-card-link">
+                  <div>
+                    <div class="channel-label">GitHub</div>
+                    <div class="channel-value">github.com/bhaki18</div>
+                  </div>
+                  <span class="channel-arrow" aria-hidden="true">↗</span>
+                </a>
+
+                <div class="channel-card">
+                  <div>
+                    <div class="channel-label" data-i18n="contact.locationLabel">Location</div>
+                    <div class="channel-value" data-i18n="contact.locationValue">Italy · CET (UTC+1)</div>
+                  </div>
+                  <span class="live-dot" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+
+            <form class="contact-form" id="contact-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-name" data-i18n="form.name">Name</label>
+                  <input type="text" id="contact-name" name="name" data-i18n-placeholder="form.namePh" placeholder="Your name" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label for="contact-email" data-i18n="form.email">Email</label>
+                  <input type="email" id="contact-email" name="email" placeholder="you@example.com" required autocomplete="email">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-subject" data-i18n="form.subject">Subject</label>
+                <input type="text" id="contact-subject" name="subject" data-i18n-placeholder="form.subjectPh" placeholder="Project idea, collaboration, or question">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-msg" data-i18n="form.message">Message</label>
+                <textarea id="contact-msg" name="message" data-i18n-placeholder="form.messagePh" placeholder="Tell me about what you'd like to build..." required></textarea>
+              </div>
+
+              <!-- Honeypot -->
+              <div class="honeypot" aria-hidden="true">
+                <label for="contact-hp">Leave empty</label>
+                <input type="text" id="contact-hp" name="honeypot" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="form-feedback d-none" id="form-feedback" role="status" aria-live="polite"></div>
+
+              <button type="submit" class="btn btn-primary btn-lg form-submit">
+                <span data-i18n="form.submit">Send Message</span>
+                <span class="btn-arrow" aria-hidden="true">→</span>
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ═══════════════════════════════════
          FOOTER
     ═══════════════════════════════════ -->
-        <footer class="site-footer">
-            <div class="container">
-                <div class="footer-inner">
-                    <div class="footer-copy">
-                        © 2024 Angelo Del Piano (ADP) — Built with ❤️ in Italy 🇮🇹
-                    </div>
-                    <nav class="footer-links" aria-label="Footer navigation">
-                        <a href="#home">Home</a>
-                        <a href="#projects">Projects</a>
-                        <a href="#about">About</a>
-                        <a href="#contact">Contact</a>
-                    </nav>
-                </div>
-            </div>
-        </footer>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <span class="logo-text">adp<span>.io</span></span>
+            <span class="footer-copy" data-i18n="footer.copy">© 2024–2026 Angelo Del Piano · Built in Italy</span>
+          </div>
 
-        <!-- Play Modal -->
-        <div class="play-modal" id="project-modal">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content glass-card">
-                <div class="modal-header">
-                    <h3 id="modal-title">Project Player</h3>
-                    <div class="modal-actions">
-                        <a href="#" id="modal-external" target="_blank" class="modal-btn">Open External ↗</a>
-                        <button class="modal-close" id="modal-close">✕</button>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-loader">
-                        <div class="spinner"></div>
-                        <span>Loading Project...</span>
-                    </div>
-                    <iframe id="modal-iframe" src="" frameborder="0" allowfullscreen
-                        allow="pointer-lock *; autoplay; fullscreen"></iframe>
-                </div>
-            </div>
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#featured" data-i18n="nav.featured">Featured</a>
+            <a href="#projects" data-i18n="nav.repos">Repositories</a>
+            <a href="#craft" data-i18n="nav.craft">Craft</a>
+            <a href="#about" data-i18n="nav.about">About</a>
+            <a href="#contact" data-i18n="nav.contact">Contact</a>
+            <a href="https://github.com/bhaki18" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          </nav>
+
+          <a href="#home" class="back-to-top" aria-label="Back to top">↑</a>
         </div>
+      </div>
+    </footer>
 
-        <!-- README Modal -->
-        <div class="play-modal" id="readme-modal">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content glass-card readme-modal-content">
-                <div class="modal-header">
-                    <h3 id="readme-modal-title">Repository README</h3>
-                    <div class="modal-actions">
-                        <a href="#" id="readme-modal-external" target="_blank" class="modal-btn">Open on GitHub ↗</a>
-                        <button class="modal-close" id="readme-modal-close">✕</button>
-                    </div>
-                </div>
-                <div class="modal-body readme-modal-body">
-                    <div class="modal-loader" id="readme-loader">
-                        <div class="spinner"></div>
-                        <span>Fetching README from GitHub...</span>
-                    </div>
-                    <div class="markdown-body" id="readme-content">
-                        <!-- Loaded and parsed dynamically -->
-                    </div>
-                </div>
-            </div>
+    <!-- Playable Demo Modal -->
+    <div class="modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Project Demo</h3>
+          <div class="modal-actions">
+            <a href="#" id="modal-external" target="_blank" rel="noopener noreferrer" class="modal-btn">Open External ↗</a>
+            <button type="button" class="modal-close" id="modal-close" aria-label="Close demo modal">✕</button>
+          </div>
         </div>
+        <div class="modal-body">
+          <div class="modal-loader" id="modal-loader">
+            <div class="spinner"></div>
+            <span data-i18n="modal.loadingDemo">Loading interactive demo…</span>
+          </div>
+          <iframe id="modal-iframe" src="" title="Interactive project preview" allowfullscreen
+            allow="pointer-lock *; autoplay; fullscreen"></iframe>
+        </div>
+      </div>
+    </div>
 
-    </div><!-- .wrapper -->
+    <!-- GitHub README Modal -->
+    <div class="modal" id="readme-modal" role="dialog" aria-modal="true" aria-labelledby="readme-modal-title" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content readme-modal-content">
+        <div class="modal-header">
+          <h3 id="readme-modal-title">Repository README</h3>
+          <div class="modal-actions">
+            <a href="#" id="readme-modal-external" target="_blank" rel="noopener noreferrer" class="modal-btn">Open on GitHub ↗</a>
+            <button type="button" class="modal-close" id="readme-modal-close" aria-label="Close README modal">✕</button>
+          </div>
+        </div>
+        <div class="modal-body readme-modal-body">
+          <div class="modal-loader" id="readme-loader">
+            <div class="spinner"></div>
+            <span data-i18n="modal.loadingReadme">Fetching README from GitHub…</span>
+          </div>
+          <div class="markdown-body" id="readme-content"></div>
+        </div>
+      </div>
+    </div>
 
-    <!-- Scripts (deferred) -->
-    <script src="js/main.js" defer></script>
+  </div><!-- .wrapper -->
+
+  <script src="js/main.js" defer></script>
 </body>
 
 </html>
